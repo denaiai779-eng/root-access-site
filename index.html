@@ -777,8 +777,8 @@
                     <li>Mastery rubric + Bug Report system</li>
                     <li>Pacing guide for the full year</li>
                 </ul>
-                <!-- Replace with your Stripe Payment Link -->
-                <a href="#" id="buy-btn" class="btn btn-primary" style="width: 100%; text-align: center;">Buy the Starter Pack</a>
+                <!-- TODO: Replace test link with live Stripe Payment Link before launch -->
+                <a href="https://buy.stripe.com/test_28EeVdfiJd0mb9agR514400" id="buy-btn" class="btn btn-primary" style="width: 100%; text-align: center;">Buy the Starter Pack</a>
                 <p class="form-note" style="text-align: center; margin-top: 8px;">Secure checkout via Stripe. Instant PDF download.</p>
             </div>
         </div>
@@ -866,11 +866,8 @@
         });
     });
 
-    // Buy button - replace href with your Stripe Payment Link
-    document.getElementById('buy-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        alert('Replace this with your Stripe Payment Link URL.\n\nSteps:\n1. Go to dashboard.stripe.com/payment-links\n2. Create a new payment link for $29\n3. Replace the href on the #buy-btn element');
-    });
+    // Buy button — opens Stripe checkout
+    // TODO: Replace test link with live Stripe Payment Link before launch
 </script>
 
 </body>
