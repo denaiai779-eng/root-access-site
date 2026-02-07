@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root Access — De-Colonized Homeschool Curriculum for 4th Grade</title>
+    <meta name="description" content="A fully scripted, culturally inclusive 4th-grade homeschool curriculum. De-colonized social studies, Singapore Math, hands-on science. No teaching degree required.">
+    <meta property="og:title" content="Root Access Learning OS">
+    <meta property="og:description" content="De-colonized homeschool curriculum. Fully scripted. No teaching degree required.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --terminal-black: #0D0D0D;
+            --deep-navy: #1A1A2E;
+            --root-green: #00FF88;
+            --white: #FFFFFF;
+            --light-gray: #B0B0B0;
+            --error-red: #FF4444;
+            --warning-amber: #FFAA00;
+            --font-heading: 'Fira Code', monospace;
+            --font-body: 'IBM Plex Mono', monospace;
+            --font-handwriting: 'Patrick Hand', cursive;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--terminal-black);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ---- LAYOUT ---- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* ---- TYPOGRAPHY ---- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--light-gray);
+        }
+
+        a {
+            color: var(--root-green);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---- CURSOR BLINK ---- */
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1.2em;
+            background: var(--root-green);
+            margin-left: 4px;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* ---- NAV ---- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+            padding: 16px 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--root-green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light-gray);
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--root-green);
+            text-decoration: none;
+        }
+
+        /* ---- HERO ---- */
+        .hero {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            color: var(--root-green);
+            border: 1px solid var(--root-green);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .green {
+            color: var(--root-green);
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* ---- BUTTONS ---- */
+        .btn {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--root-green);
+            color: var(--terminal-black);
+        }
+
+        .btn-primary:hover {
+            background: #00DD77;
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--root-green);
+            border: 1px solid var(--root-green);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .btn-small {
+            font-size: 0.8rem;
+            padding: 10px 20px;
+        }
+
+        /* ---- PROMPT LINE ---- */
+        .prompt {
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            color: var(--light-gray);
+            margin-top: 16px;
+        }
+
+        .prompt .green {
+            color: var(--root-green);
+        }
+
+        /* ---- WHAT'S DIFFERENT ---- */
+        .different {
+            border-top: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        .diff-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 640px) {
+            .diff-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .diff-card {
+            background: var(--deep-navy);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 28px;
+        }
+
+        .diff-card h3 {
+            color: var(--root-green);
+            font-size: 0.95rem;
+        }
+
+        .diff-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* ---- SAMPLE LESSON ---- */
+        .sample {
+            border-top: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        .lesson-preview {
+            background: var(--deep-navy);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            padding: 32px;
+            margin: 32px 0;
+            font-size: 0.9rem;
+        }
+
+        .lesson-preview .tag {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            color: var(--terminal-black);
+            background: var(--root-green);
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 3px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .lesson-preview .say-this {
+            border-left: 3px solid var(--root-green);
+            padding: 12px 16px;
+            margin: 16px 0;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .lesson-preview .say-this .label {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--root-green);
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .lesson-preview .say-this p {
+            color: var(--white);
+            margin-bottom: 0;
+            font-family: var(--font-body);
+        }
+
+        .lesson-preview .context {
+            color: var(--light-gray);
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        /* ---- WHAT'S INSIDE ---- */
+        .inside {
+            border-top: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        .inside-list {
+            list-style: none;
+            margin: 32px 0;
+        }
+
+        .inside-list li {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .inside-list .icon {
+            color: var(--root-green);
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            width: 24px;
+            text-align: center;
+        }
+
+        .inside-list .text {
+            flex: 1;
+        }
+
+        .inside-list .text strong {
+            color: var(--white);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .inside-list .text span {
+            color: var(--light-gray);
+            font-size: 0.85rem;
+        }
+
+        /* ---- PRICING ---- */
+        .pricing {
+            border-top: 1px solid rgba(0, 255, 136, 0.15);
+            text-align: center;
+        }
+
+        .price-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-top: 40px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 640px) {
+            .price-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .price-card {
+            background: var(--deep-navy);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 32px;
+            text-align: left;
+        }
+
+        .price-card.featured {
+            border-color: var(--root-green);
+            position: relative;
+        }
+
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            font-family: var(--font-heading);
+            font-size: 0.65rem;
+            background: var(--root-green);
+            color: var(--terminal-black);
+            padding: 4px 12px;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+        .price-amount {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin: 8px 0;
+        }
+
+        .price-amount .free {
+            color: var(--root-green);
+        }
+
+        .price-label {
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            color: var(--root-green);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .price-desc {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+            margin: 16px 0 24px;
+        }
+
+        .price-includes {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .price-includes li {
+            font-size: 0.8rem;
+            color: var(--light-gray);
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .price-includes li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--root-green);
+            font-family: var(--font-heading);
+        }
+
+        /* ---- EMAIL FORM ---- */
+        .email-form {
+            margin-top: 16px;
+        }
+
+        .email-form .form-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .email-form input[type="email"] {
+            flex: 1;
+            background: var(--terminal-black);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 6px;
+            padding: 12px 16px;
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .email-form input[type="email"]:focus {
+            border-color: var(--root-green);
+        }
+
+        .email-form input[type="email"]::placeholder {
+            color: rgba(176, 176, 176, 0.5);
+        }
+
+        .email-form .btn {
+            white-space: nowrap;
+        }
+
+        .form-note {
+            font-size: 0.7rem;
+            color: rgba(176, 176, 176, 0.5);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .email-form .form-row {
+                flex-direction: column;
+            }
+        }
+
+        /* ---- FAQ ---- */
+        .faq {
+            border-top: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 24px 0;
+        }
+
+        .faq-item h3 {
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .faq-item p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        /* ---- FINAL CTA ---- */
+        .final-cta {
+            border-top: 1px solid rgba(0, 255, 136, 0.15);
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        .final-cta h2 {
+            margin-bottom: 16px;
+        }
+
+        .final-cta p {
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.75rem;
+            color: rgba(176, 176, 176, 0.4);
+            margin-bottom: 4px;
+        }
+
+        /* ---- FORM SUCCESS STATE ---- */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 16px;
+        }
+
+        .form-success p {
+            color: var(--root-green);
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+        }
+
+        /* ---- PRINT ---- */
+        @media print {
+            body { background: white; color: black; }
+            nav { display: none; }
+            .btn { border: 2px solid black; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="container">
+        <div class="nav-logo">> root_access<span class="cursor"></span></div>
+        <ul class="nav-links">
+            <li><a href="#sample">Preview</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">4th Grade Homeschool Curriculum</div>
+        <h1>Your child deserves a curriculum that tells<br>the <span class="green">whole story.</span></h1>
+        <p class="hero-sub">
+            Root Access is a fully scripted, de-colonized 4th-grade homeschool curriculum.
+            Singapore Math. Hands-on science. History that centers every perspective — not just the textbook version.
+            No teaching degree required.
+        </p>
+        <div class="hero-cta">
+            <a href="#pricing" class="btn btn-primary">Get the Free Week</a>
+            <p class="prompt"><span class="green">$</span> teaching_experience --required <span class="green">false</span></p>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT'S DIFFERENT -->
+<section class="different" id="different">
+    <div class="container">
+        <h2>This isn't your standard curriculum.</h2>
+        <div class="diff-grid">
+            <div class="diff-card">
+                <h3>> scripted dialogue</h3>
+                <p>Every lesson includes word-for-word parent scripts. You'll never stare at a topic wondering "how do I explain this?" It's written for you.</p>
+            </div>
+            <div class="diff-card">
+                <h3>> de-colonized history</h3>
+                <p>Indigenous peoples as civilizations with governance, trade, and agency — not footnotes. The Great Migration, labor movements, and perspectives the textbooks skip.</p>
+            </div>
+            <div class="diff-card">
+                <h3>> singapore math</h3>
+                <p>Concrete → pictorial → abstract. Start with blocks you can touch, move to drawings, then numbers. Slower at first. Dramatically deeper understanding later.</p>
+            </div>
+            <div class="diff-card">
+                <h3>> built for real parents</h3>
+                <p>Not former teachers. Not curriculum designers. Real parents with real lives who want to do this right. Every transition, every question, every "what if they don't get it" — handled.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SAMPLE LESSON PREVIEW -->
+<section class="sample" id="sample">
+    <div class="container">
+        <h2>See what a lesson actually looks like.</h2>
+        <p>This is from Week 1, Thursday — Social Studies. Michigan Geography.</p>
+
+        <div class="lesson-preview">
+            <div class="tag">Social Studies — Hook</div>
+            <div class="say-this">
+                <span class="label">Say this:</span>
+                <p>"Look at your hand — palm up. Now look at this map of Michigan. See anything similar? That shape is called the Lower Peninsula — and people have been calling it 'the mitten' for as long as anyone can remember."</p>
+            </div>
+            <div class="say-this">
+                <span class="label">Say this:</span>
+                <p>"But before anyone called it Michigan, the Anishinaabe people — the Ojibwe, Odawa, and Potawatomi — had their own names for this land. They called the big lake <em>michi-gami</em> — the great water. That's where the name Michigan comes from."</p>
+            </div>
+            <p class="context">Students then draw and label their own Michigan map with both English and Indigenous place names — Detroit from Anishinaabe "Waawiyaatanong," Mackinac from "Michilimackinac."</p>
+        </div>
+
+        <div class="lesson-preview">
+            <div class="tag">Math — Bug Check</div>
+            <p style="color: var(--white); margin-bottom: 12px;">When your student struggles, the curriculum tells you exactly what kind of struggle it is:</p>
+            <p><strong style="color: var(--error-red);">Error 404</strong> <span style="color: var(--light-gray);">— They don't get it at all. Go back to physical blocks. Build the number. Count it. Try a completely different angle.</span></p>
+            <p><strong style="color: var(--warning-amber);">Error 500</strong> <span style="color: var(--light-gray);">— They're trying but the reasoning is off. Find exactly where the logic breaks. Ask them to talk through their thinking.</span></p>
+            <p style="margin-bottom: 0;"><strong style="color: var(--root-green);">Syntax Error</strong> <span style="color: var(--light-gray);">— They understand the concept but make mechanical mistakes. More practice, not more teaching.</span></p>
+        </div>
+
+        <p style="text-align: center; margin-top: 32px;">
+            <a href="#pricing" class="btn btn-secondary btn-small">Download the full Week 1 free</a>
+        </p>
+    </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="inside" id="inside">
+    <div class="container">
+        <h2>What's inside every week.</h2>
+        <p>6 files per week. 3 teaching days. Everything you need, nothing you don't.</p>
+        <ul class="inside-list">
+            <li>
+                <span class="icon">></span>
+                <div class="text">
+                    <strong>Overview + Parent Prep</strong>
+                    <span>Standards covered, materials list, what to expect, common misconceptions to watch for, and what to do if your student is ahead or behind.</span>
+                </div>
+            </li>
+            <li>
+                <span class="icon">></span>
+                <div class="text">
+                    <strong>Wednesday: Math + Science</strong>
+                    <span>60-minute Singapore Math block with scripted dialogue, original problems, answer keys, and Beast Academy challenge. 45-minute hands-on science with real experiments using household materials.</span>
+                </div>
+            </li>
+            <li>
+                <span class="icon">></span>
+                <div class="text">
+                    <strong>Thursday: Math + Social Studies</strong>
+                    <span>Math continues the week's progression. Social studies centers multiple perspectives — Indigenous peoples as civilizations, workers as agents of change, history that includes everyone.</span>
+                </div>
+            </li>
+            <li>
+                <span class="icon">></span>
+                <div class="text">
+                    <strong>Friday: Math + Coding</strong>
+                    <span>Math wraps the week's topic. Alternating science/social studies extension. 30-minute Scratch coding block that builds skills week over week.</span>
+                </div>
+            </li>
+            <li>
+                <span class="icon">></span>
+                <div class="text">
+                    <strong>Homework + Weekend Project</strong>
+                    <span>15 minutes/night reinforcement (never new material). Creative weekend project connecting the week's learning across subjects.</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+    <div class="container">
+        <h2>Start with a free week. Stay for the year.</h2>
+        <p>See it. Teach it. Decide if it's right for your family.</p>
+
+        <div class="price-cards">
+            <!-- FREE -->
+            <div class="price-card">
+                <div class="price-label">Week 1 Sample</div>
+                <div class="price-amount"><span class="free">Free</span></div>
+                <p class="price-desc">The full first week — not a preview, not a summary. The actual lessons you'd teach.</p>
+                <ul class="price-includes">
+                    <li>6 complete lesson files</li>
+                    <li>Scripted parent dialogue</li>
+                    <li>Math problems + answer keys</li>
+                    <li>Hands-on science experiment</li>
+                    <li>Michigan geography lesson</li>
+                    <li>Homework + weekend project</li>
+                </ul>
+                <form class="email-form" id="free-form" action="https://formspree.io/f/xgoleavy" method="POST">
+                    <div class="form-row">
+                        <input type="email" name="email" placeholder="your@email.com" required>
+                        <button type="submit" class="btn btn-primary btn-small">Get Week 1</button>
+                    </div>
+                    <p class="form-note">No spam. Just the curriculum and updates when new weeks drop.</p>
+                    <input type="hidden" name="_subject" value="Root Access — Free Week 1 Download">
+                </form>
+                <div class="form-success" id="free-success">
+                    <p>> download_link sent to your inbox.</p>
+                </div>
+            </div>
+
+            <!-- PAID -->
+            <div class="price-card featured">
+                <div class="price-label">Starter Pack — Weeks 1-4</div>
+                <div class="price-amount">$29</div>
+                <p class="price-desc">A full month of curriculum. Enough to know this is your new normal.</p>
+                <ul class="price-includes">
+                    <li>Everything in Week 1, times four</li>
+                    <li>24 complete lesson files</li>
+                    <li>Full standards alignment map</li>
+                    <li>Parent onboarding guide</li>
+                    <li>Mastery rubric + Bug Report system</li>
+                    <li>Pacing guide for the full year</li>
+                </ul>
+                <!-- Replace with your Stripe Payment Link -->
+                <a href="#" id="buy-btn" class="btn btn-primary" style="width: 100%; text-align: center;">Buy the Starter Pack</a>
+                <p class="form-note" style="text-align: center; margin-top: 8px;">Secure checkout via Stripe. Instant PDF download.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+    <div class="container">
+        <h2>Questions you probably have.</h2>
+
+        <div class="faq-item">
+            <h3>Do I need a teaching background?</h3>
+            <p>No. Every lesson includes scripted dialogue — word-for-word suggestions for how to introduce concepts, transition between activities, and handle confusion. You read it at breakfast, teach it by 8:30.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What does "de-colonized" actually mean here?</h3>
+            <p>It means Indigenous peoples are presented as civilizations with governance, trade networks, and agency — not as footnotes before "real" history starts. It means the Great Migration, labor movements, and civil rights are taught through the eyes of the people who lived them. It means we don't do "Columbus discovered America."</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What subjects are covered?</h3>
+            <p>Math (Singapore Math methodology), Science (Next Generation Science Standards, hands-on), Social Studies (Michigan-specific, de-colonized), and ELA (reading, writing, speaking, and listening integrated across all subjects — no standalone "English class").</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How many days a week?</h3>
+            <p>Three — Wednesday, Thursday, Friday. About 3 hours per day. Monday and Tuesday are free for co-ops, field trips, music, or just being a kid.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Is this aligned to standards?</h3>
+            <p>Yes. Common Core Math, Next Generation Science Standards, Michigan Social Studies GLCEs, and Common Core ELA. Every lesson tags exactly which standards it addresses. A full coverage map is included.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What if my kid is ahead or behind grade level?</h3>
+            <p>Every lesson includes differentiation: what to do if the student is ahead (extension activities, harder problems) and what to do if they're behind (scaffolding, concrete re-entry points). The Bug Report system helps you diagnose exactly where they're stuck.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Will more weeks be available?</h3>
+            <p>Yes. New weeks release monthly. The full curriculum covers 36 weeks (a complete school year). Subscribe to updates when you download Week 1 and you'll be first to know when new content drops.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <div class="container">
+        <h2>Your child's education deserves<br>the <span style="color: var(--root-green);">full story.</span></h2>
+        <p>Not the abridged version. Not the comfortable version. The real one — told with care, taught with confidence.</p>
+        <a href="#pricing" class="btn btn-primary">Get the Free Week</a>
+        <p class="prompt" style="margin-top: 16px;"><span class="green">$</span> chmod +x ./start_teaching.sh</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Root Access Learning OS. All rights reserved.</p>
+        <p>Built by a parent, for parents.</p>
+    </div>
+</footer>
+
+<script>
+    // Simple form handling with success state
+    document.getElementById('free-form').addEventListener('submit', function(e) {
+        // If using Formspree, let the form submit normally
+        // For demo/preview, show success state:
+        // e.preventDefault();
+        // this.style.display = 'none';
+        // document.getElementById('free-success').style.display = 'block';
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Buy button - replace href with your Stripe Payment Link
+    document.getElementById('buy-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Replace this with your Stripe Payment Link URL.\n\nSteps:\n1. Go to dashboard.stripe.com/payment-links\n2. Create a new payment link for $29\n3. Replace the href on the #buy-btn element');
+    });
+</script>
+
+</body>
+</html>
