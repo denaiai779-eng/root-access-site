@@ -861,8 +861,7 @@
             headers: { 'Accept': 'application/json' }
         }).then(function(response) {
             if (response.ok) {
-                form.style.display = 'none';
-                document.getElementById('free-success').style.display = 'block';
+                window.location.href = 'thank-you-free.html';
             } else {
                 btn.textContent = 'Error — try again';
                 btn.disabled = false;

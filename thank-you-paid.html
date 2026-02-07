@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root Access — Your Starter Pack Is Ready</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --terminal-black: #0D0D0D;
+            --deep-navy: #1A1A2E;
+            --root-green: #00FF88;
+            --white: #FFFFFF;
+            --light-gray: #B0B0B0;
+        }
+        body {
+            background: var(--terminal-black);
+            color: var(--white);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .card {
+            background: var(--deep-navy);
+            border: 1px solid var(--root-green);
+            border-radius: 8px;
+            padding: 48px;
+            max-width: 560px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: var(--root-green);
+        }
+        p { color: var(--light-gray); margin-bottom: 16px; }
+        .btn {
+            display: inline-block;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 6px;
+            background: var(--root-green);
+            color: var(--terminal-black);
+            text-decoration: none;
+            margin: 24px 0;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #00DD77; transform: translateY(-1px); }
+        .prompt {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--light-gray);
+            margin-top: 24px;
+        }
+        .prompt .green { color: var(--root-green); }
+        .contents {
+            text-align: left;
+            margin: 24px 0;
+            font-size: 0.85rem;
+        }
+        .contents li {
+            color: var(--light-gray);
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+            list-style: none;
+        }
+        .contents li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--root-green);
+            font-family: 'Fira Code', monospace;
+        }
+        .note {
+            font-size: 0.8rem;
+            color: rgba(176, 176, 176, 0.6);
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>> purchase_complete</h1>
+        <p>Thank you. Your Root Access Starter Pack is ready to download. Four weeks of complete, teach-ready curriculum — starting right now.</p>
+
+        <a href="downloads/root-access-starter-pack-weeks-1-4.zip" class="btn">Download Starter Pack (.zip)</a>
+
+        <p style="font-size: 0.85rem; color: var(--white);">What's inside:</p>
+        <ul class="contents">
+            <li>Week 1: Boot Sequence — place value, energy & speed, Michigan geography</li>
+            <li>Week 2: Loading Dependencies — comparing & rounding, collisions, geography & settlement</li>
+            <li>Week 3: First Commit — addition & subtraction, energy conversion, Anishinaabe peoples</li>
+            <li>Week 4: Open Source — word problems, engineering design, Three Fires Confederacy</li>
+            <li>24 complete lesson files with scripted parent dialogue</li>
+            <li>Full answer keys for every math problem</li>
+            <li>Onboarding guide, daily routine, mastery rubric</li>
+            <li>36-week pacing guide and standards tracker</li>
+        </ul>
+
+        <p style="font-size: 0.85rem;">Start with the <strong>onboarding guide</strong> (system/onboarding.md), then read Week 1's <strong>parent-prep.md</strong> before your first teaching day.</p>
+
+        <p class="note">A receipt has been emailed to you from Stripe. If you have any questions, reply to that email.</p>
+
+        <p class="prompt"><span class="green">$</span> ./start_teaching.sh --week 1</p>
+    </div>
+</body>
+</html>
