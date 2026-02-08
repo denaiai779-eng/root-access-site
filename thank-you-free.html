@@ -7,20 +7,13 @@
     <meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --terminal-black: #0D0D0D;
-            --deep-navy: #1A1A2E;
-            --root-green: #00FF88;
-            --white: #FFFFFF;
-            --light-gray: #B0B0B0;
-        }
         body {
-            background: var(--terminal-black);
-            color: var(--white);
-            font-family: 'IBM Plex Mono', monospace;
+            background: #F8FAFC;
+            color: #333;
+            font-family: 'Quicksand', sans-serif;
             font-size: 16px;
             line-height: 1.6;
             display: flex;
@@ -30,51 +23,86 @@
             padding: 24px;
         }
         .card {
-            background: var(--deep-navy);
-            border: 1px solid var(--root-green);
-            border-radius: 8px;
+            background: white;
+            border-radius: 20px;
             padding: 48px;
-            max-width: 560px;
+            max-width: 580px;
             text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        .badge {
+            display: inline-block;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #059669;
+            background: #ECFDF5;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
         }
         h1 {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            color: var(--root-green);
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #2563EB;
         }
-        p { color: var(--light-gray); margin-bottom: 16px; }
+        p { color: #555; margin-bottom: 16px; }
         .btn {
             display: inline-block;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.95rem;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
             font-weight: 600;
-            padding: 14px 32px;
-            border-radius: 6px;
-            background: var(--root-green);
-            color: var(--terminal-black);
+            padding: 16px 36px;
+            border-radius: 12px;
+            background: #2563EB;
+            color: white;
             text-decoration: none;
-            margin: 24px 0;
+            margin: 20px 0;
             transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
         }
-        .btn:hover { background: #00DD77; transform: translateY(-1px); }
-        .prompt {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: var(--light-gray);
-            margin-top: 24px;
+        .btn:hover { background: #1D4ED8; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
+        .details {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 8px;
         }
-        .prompt .green { color: var(--root-green); }
         .divider {
             border: none;
-            border-top: 1px solid rgba(0, 255, 136, 0.2);
-            margin: 32px 0;
+            border-top: 2px solid #EFF6FF;
+            margin: 28px 0;
         }
+        .highlights {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        .highlight-pill {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 16px;
+            color: white;
+        }
+        .highlight-pill.math { background: #2563EB; }
+        .highlight-pill.ela { background: #7C3AED; }
+        .highlight-pill.science { background: #059669; }
+        .highlight-pill.social { background: #EA580C; }
         .upsell {
-            font-size: 0.85rem;
+            background: #EFF6FF;
+            border-radius: 14px;
+            padding: 20px 24px;
         }
+        .upsell p { color: #444; margin-bottom: 12px; font-size: 0.9rem; }
         .upsell a {
-            color: var(--root-green);
+            font-family: 'Fredoka', sans-serif;
+            color: #2563EB;
+            font-weight: 600;
             text-decoration: none;
         }
         .upsell a:hover { text-decoration: underline; }
@@ -82,21 +110,26 @@
 </head>
 <body>
     <div class="card">
-        <h1>> download_ready</h1>
-        <p>Week 1 of Root Access is yours. Six complete lesson files — scripted dialogue, math problems with answer keys, hands-on science, de-colonized social studies. Ready to teach.</p>
+        <div class="badge">Ready to Download</div>
+        <h1>Your Free Week Is Here!</h1>
+        <p>Week 1 of Root Access — 101 pages of complete, teach-ready curriculum. Reading passages, math lessons, grammar, science experiments, and de-colonized social studies. Open it and start teaching.</p>
 
-        <a href="downloads/root-access-week-01-free.zip" class="btn">Download Week 1 (.zip)</a>
+        <a href="downloads/root-access-week-01-free.zip" class="btn">Download Week 1 (PDF)</a>
+        <p class="details">6 MB &bull; 101 pages &bull; 5 full days of instruction</p>
 
-        <p style="font-size: 0.8rem;">Includes: overview, parent prep, Wednesday/Thursday/Friday lessons, homework + answer keys, onboarding guide, rubric, daily routine, and brand guide.</p>
+        <div class="highlights">
+            <span class="highlight-pill math">Math</span>
+            <span class="highlight-pill ela">Language Arts</span>
+            <span class="highlight-pill science">Science</span>
+            <span class="highlight-pill social">Social Studies</span>
+        </div>
 
         <hr class="divider">
 
         <div class="upsell">
-            <p>Ready for more? The <strong>Starter Pack</strong> has Weeks 1-4 — a full month of curriculum, plus the pacing guide and standards tracker.</p>
+            <p>Love it? The <strong>Starter Pack</strong> has Weeks 1-4 — a full month of curriculum with 400+ pages, answer keys, and parent guide.</p>
             <a href="https://buy.stripe.com/8x228refi0SF1en5GL5Rm00">Get the Starter Pack — $29 &rarr;</a>
         </div>
-
-        <p class="prompt"><span class="green">$</span> chmod +x ./start_teaching.sh</p>
     </div>
 </body>
 </html>
