@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Root Access — Week 1 Interactive Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563EB">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --blue: #2563EB;
+    --blue-light: #EFF6FF;
+    --blue-dark: #1E40AF;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --orange: #EA580C;
+    --orange-light: #FFF7ED;
+    --purple: #7C3AED;
+    --purple-light: #F5F3FF;
+    --cyan: #0891B2;
+    --cyan-light: #ECFEFF;
+    --gold: #F59E0B;
+    --gold-light: #FFFBEB;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8edf3 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+/* === HEADER === */
+.hub-header {
+    background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
+    padding: 40px 24px 32px;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.hub-header::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+}
+.hub-header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -40px;
+    width: 240px;
+    height: 240px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+}
+.hub-header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 36px;
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
+}
+.hub-header .subtitle {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 16px;
+    opacity: 0.85;
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+}
+.hub-header .week-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 16px;
+    border-radius: 16px;
+    display: inline-block;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+/* === STUDENT SELECTOR === */
+.student-bar {
+    max-width: 700px;
+    margin: -24px auto 0;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 10;
+}
+.student-bar label {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+}
+.student-bar input {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 14px;
+    flex: 1;
+    color: #333;
+    outline: none;
+}
+.student-bar input:focus { border-color: var(--blue); }
+.student-bar .overall-progress {
+    text-align: right;
+    min-width: 100px;
+}
+.student-bar .progress-pct {
+    font-family: 'Baloo 2', cursive;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1;
+}
+.student-bar .progress-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 11px;
+    color: #999;
+}
+
+/* === DAY GRID === */
+.day-grid {
+    max-width: 700px;
+    margin: 28px auto;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.day-card {
+    background: white;
+    border-radius: 16px;
+    border: 3px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.day-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-color: var(--blue);
+}
+.day-card.completed { border-color: var(--green); }
+.day-card.completed:hover { border-color: var(--green); }
+.day-card.day-coming-soon { opacity: 0.5; pointer-events: none; }
+
+.day-card-inner {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    gap: 16px;
+}
+
+.day-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+.day-icon.mon { background: var(--blue-light); }
+.day-icon.tue { background: var(--purple-light); }
+.day-icon.wed { background: var(--green-light); }
+.day-icon.thu { background: var(--orange-light); }
+.day-icon.fri { background: var(--gold-light); }
+
+.day-info { flex: 1; }
+.day-name {
+    font-family: 'Baloo 2', cursive;
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.2;
+}
+.day-topics {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+}
+.day-subjects {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+.day-subjects .tag {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 8px;
+    color: white;
+}
+.tag-math { background: var(--blue); }
+.tag-ela { background: var(--purple); }
+.tag-science { background: var(--green); }
+.tag-social { background: var(--orange); }
+.tag-standards { background: transparent; color: #888; border: 1.5px solid #cbd5e1; font-weight: 600; }
+
+.day-progress {
+    text-align: center;
+    min-width: 56px;
+}
+.day-pct {
+    font-family: 'Baloo 2', cursive;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+}
+.day-pct.zero { color: #ccc; }
+.day-pct.partial { color: var(--gold); }
+.day-pct.done { color: var(--green); }
+.day-status {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 10px;
+    color: #999;
+    margin-top: 2px;
+}
+.day-status.done { color: var(--green); }
+
+.day-arrow {
+    font-size: 20px;
+    color: #ccc;
+    transition: color 0.2s;
+}
+.day-card:hover .day-arrow { color: var(--blue); }
+
+/* === PARENT VIEW === */
+.parent-section {
+    max-width: 700px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+.parent-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.parent-toggle button {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #555;
+}
+.parent-toggle button:hover { border-color: var(--blue); }
+.parent-toggle button.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+.parent-panel {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    display: none;
+}
+.parent-panel.show { display: block; }
+.parent-panel h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin-bottom: 12px;
+}
+.parent-panel p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.progress-summary {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+}
+.progress-day {
+    text-align: center;
+    padding: 12px 8px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+}
+.progress-day .day-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 4px;
+}
+.progress-day .day-ring {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px;
+    font-weight: 800;
+    border: 4px solid #e2e8f0;
+    color: #ccc;
+}
+.progress-day .day-ring.partial { border-color: var(--gold); color: var(--gold); }
+.progress-day .day-ring.done { border-color: var(--green); color: var(--green); background: var(--green-light); }
+
+.btn-print {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: 2px solid var(--blue);
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+.btn-print:hover { background: var(--blue); color: white; }
+
+.btn-reset {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 2px solid #fecaca;
+    background: #fef2f2;
+    color: #DC2626;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+}
+.btn-reset:hover { background: #DC2626; color: white; }
+
+/* === PROFILE PICKER === */
+.profile-screen {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 0 16px;
+    text-align: center;
+}
+.profile-screen h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin-bottom: 8px;
+}
+.profile-screen .subtitle {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 28px;
+}
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.profile-card {
+    background: white;
+    border: 3px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.profile-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.profile-card .avatar {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+.profile-card .name {
+    font-family: 'Baloo 2', cursive;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+.profile-add {
+    background: var(--blue-light);
+    border: 3px dashed var(--blue);
+    border-radius: 16px;
+    padding: 24px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    color: var(--blue);
+}
+.profile-add:hover {
+    background: white;
+    transform: translateY(-3px);
+}
+.profile-add .plus {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.profile-add .label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+.profile-parent-link {
+    margin-top: 20px;
+}
+.profile-parent-link button {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s;
+}
+.profile-parent-link button:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Add student modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+.modal-box h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin-bottom: 16px;
+}
+.modal-box input {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    width: 100%;
+    text-align: center;
+    outline: none;
+    margin-bottom: 12px;
+}
+.modal-box input:focus { border-color: var(--blue); }
+.avatar-picker {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.avatar-picker button {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.avatar-picker button:hover { border-color: var(--blue); transform: scale(1.1); }
+.avatar-picker button.selected { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 2px var(--blue); }
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.modal-actions button {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-save {
+    background: var(--blue);
+    color: white;
+    border: none;
+}
+.btn-save:hover { background: var(--blue-dark); }
+.btn-cancel {
+    background: white;
+    color: #666;
+    border: 2px solid #e2e8f0;
+}
+.btn-cancel:hover { border-color: #999; }
+
+/* View management */
+.view { display: none; }
+.view.active { display: block; }
+
+/* Student bar — switch student link */
+.switch-student {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    color: var(--blue);
+    cursor: pointer;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+/* === SUBJECT BARS === */
+.subject-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+.subject-bar:last-child { border-bottom: none; }
+.subject-bar .sb-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 80px;
+    color: #555;
+}
+.subject-bar .sb-track {
+    flex: 1;
+    height: 12px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.subject-bar .sb-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.3s;
+}
+.subject-bar .sb-pct {
+    font-family: 'Baloo 2', cursive;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 40px;
+    text-align: right;
+}
+.insight-card {
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.insight-card .insight-icon { font-size: 18px; margin-right: 6px; }
+.insight-strength { background: #ECFDF5; border: 1.5px solid #A7F3D0; color: #065F46; }
+.insight-growth { background: #FFFBEB; border: 1.5px solid #FDE68A; color: #92400E; }
+.insight-tip { background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #1E40AF; }
+
+/* === UPGRADE BANNER === */
+.upgrade-banner {
+    max-width: 700px;
+    margin: 16px auto;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+    border: 2px solid #FDE68A;
+    border-radius: 14px;
+    display: none;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+.upgrade-banner.show { display: flex; }
+.upgrade-banner .ub-icon { font-size: 28px; }
+.upgrade-banner .ub-text {
+    flex: 1;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    color: #92400E;
+    line-height: 1.4;
+}
+.upgrade-banner .ub-text strong { color: #78350F; }
+.upgrade-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.upgrade-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3); }
+.day-card.locked {
+    opacity: 0.5;
+    position: relative;
+}
+.day-card.locked::after {
+    content: '\uD83D\uDD12';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 20px;
+}
+.tier-badge {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 6px;
+}
+.tier-free { background: #ECFDF5; color: #059669; }
+.tier-starter { background: #FFFBEB; color: #D97706; }
+
+/* === FOOTER === */
+.hub-footer {
+    text-align: center;
+    padding: 32px 16px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    color: #999;
+}
+.hub-footer a { color: var(--blue); text-decoration: none; }
+.hub-footer a:hover { text-decoration: underline; }
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+    .hub-header h1 { font-size: 28px; }
+    .student-bar { flex-wrap: wrap; margin: -20px 12px 0; padding: 14px 16px; }
+    .student-bar input { width: 100%; }
+    .day-card-inner { padding: 16px; gap: 12px; }
+    .day-name { font-size: 18px; }
+    .progress-summary { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hub-header">
+    <h1>Root Access</h1>
+    <div class="subtitle">Interactive Classroom</div>
+    <div class="week-label">Week 1: Boot Sequence</div>
+</div>
+
+<!-- ========== VIEW 1: PROFILE PICKER ========== -->
+<div class="view active" id="viewProfilePicker">
+    <div class="profile-screen">
+        <h2>Who's learning today?</h2>
+        <div class="subtitle">Pick your name to start</div>
+        <div class="profile-grid" id="profileGrid">
+            <!-- Populated by JS -->
+        </div>
+        <div class="profile-parent-link">
+            <button onclick="showView('viewParent')">Parent / Teacher Dashboard</button>
+        </div>
+    </div>
+</div>
+
+<!-- ADD STUDENT MODAL -->
+<div class="modal-overlay" id="addStudentModal">
+    <div class="modal-box">
+        <h3>Add a Student</h3>
+        <input type="text" id="newStudentName" placeholder="Student's name" maxlength="20">
+        <div class="avatar-picker" id="avatarPicker">
+            <button onclick="selectAvatar(this)">&#x1F31F;</button>
+            <button onclick="selectAvatar(this)">&#x1F680;</button>
+            <button onclick="selectAvatar(this)">&#x1F33B;</button>
+            <button onclick="selectAvatar(this)">&#x1F98B;</button>
+            <button onclick="selectAvatar(this)">&#x1F3A8;</button>
+            <button onclick="selectAvatar(this)">&#x26BD;</button>
+            <button onclick="selectAvatar(this)">&#x1F3B5;</button>
+            <button onclick="selectAvatar(this)">&#x1F40C;</button>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeAddStudent()">Cancel</button>
+            <button class="btn-save" onclick="confirmAddStudent()">Add Student</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== VIEW 2: STUDENT DASHBOARD ========== -->
+<div class="view" id="viewStudent">
+    <div class="student-bar">
+        <label id="studentLabel">Student</label>
+        <div class="overall-progress">
+            <div class="progress-pct" id="overallPct">0%</div>
+            <div class="progress-label">Week Progress</div>
+        </div>
+        <button class="switch-student" onclick="switchStudent()">Switch Student</button>
+        <button class="switch-student" onclick="showView('viewParent')" style="background:#F5F3FF; color:#5B21B6; border-color:#DDD6FE;">Parent Dashboard</button>
+    </div>
+
+<!-- UPGRADE BANNER (shown when on free tier and content beyond Week 1 exists) -->
+<div class="upgrade-banner" id="upgradeBanner">
+    <div class="ub-icon">&#x2B50;</div>
+    <div class="ub-text"><strong>You're on the free trial</strong> — Week 1, all 5 days. The full curriculum is 34 weeks (a complete school year) for a one-time $29. New weeks drop monthly during beta.</div>
+    <a class="upgrade-btn" id="upgradeLink" href="#">Get the Full Year — $29</a>
+</div>
+
+<!-- DAY GRID -->
+<div class="day-grid">
+
+    <a class="day-card" href="week1-monday-interactive.html" id="card-monday" data-week="1">
+        <div class="day-card-inner">
+            <div class="day-icon mon">&#x1F31E;</div>
+            <div class="day-info">
+                <div class="day-name">Monday</div>
+                <div class="day-topics">Michigan Geography &bull; Place Value &bull; Kinetic Energy</div>
+                <div class="day-subjects">
+                    <span class="tag tag-ela">Reading</span>
+                    <span class="tag tag-math">Math</span>
+                    <span class="tag tag-science">Science</span>
+                </div>
+            </div>
+            <div class="day-progress">
+                <div class="day-pct zero" id="pct-monday">0%</div>
+                <div class="day-status" id="status-monday">Not started</div>
+            </div>
+            <div class="day-arrow">&rsaquo;</div>
+        </div>
+    </a>
+
+    <a class="day-card" href="week1-tuesday-interactive.html" id="card-tuesday" data-week="1">
+        <div class="day-card-inner">
+            <div class="day-icon tue">&#x1F4DA;</div>
+            <div class="day-info">
+                <div class="day-name">Tuesday</div>
+                <div class="day-topics">Sleeping Bear &bull; Place Value Charts &bull; Michigan Geography</div>
+                <div class="day-subjects">
+                    <span class="tag tag-ela">Reading</span>
+                    <span class="tag tag-math">Math</span>
+                    <span class="tag tag-social">Social Studies</span>
+                </div>
+            </div>
+            <div class="day-progress">
+                <div class="day-pct zero" id="pct-tuesday">0%</div>
+                <div class="day-status" id="status-tuesday">Not Started</div>
+            </div>
+            <div class="day-arrow">&rsaquo;</div>
+        </div>
+    </a>
+
+    <a class="day-card" href="week1-wednesday-interactive.html" id="card-wednesday" data-week="1">
+        <div class="day-card-inner">
+            <div class="day-icon wed">&#x1F9EA;</div>
+            <div class="day-info">
+                <div class="day-name">Wednesday</div>
+                <div class="day-topics">Energy Is Everywhere &bull; Comparing Numbers &bull; Collisions</div>
+                <div class="day-subjects">
+                    <span class="tag tag-ela">Reading</span>
+                    <span class="tag tag-math">Math</span>
+                    <span class="tag tag-science">Science</span>
+                </div>
+            </div>
+            <div class="day-progress">
+                <div class="day-pct zero" id="pct-wednesday">0%</div>
+                <div class="day-status" id="status-wednesday">Not Started</div>
+            </div>
+            <div class="day-arrow">&rsaquo;</div>
+        </div>
+    </a>
+
+    <a class="day-card" href="week1-thursday-interactive.html" id="card-thursday" data-week="1">
+        <div class="day-card-inner">
+            <div class="day-icon thu">&#x270D;&#xFE0F;</div>
+            <div class="day-info">
+                <div class="day-name">Thursday</div>
+                <div class="day-topics">People of the Three Fires &bull; Expanded Form &bull; The Anishinaabe</div>
+                <div class="day-subjects">
+                    <span class="tag tag-ela">Reading</span>
+                    <span class="tag tag-math">Math</span>
+                    <span class="tag tag-social">Social Studies</span>
+                </div>
+            </div>
+            <div class="day-progress">
+                <div class="day-pct zero" id="pct-thursday">0%</div>
+                <div class="day-status" id="status-thursday">Not Started</div>
+            </div>
+            <div class="day-arrow">&rsaquo;</div>
+        </div>
+    </a>
+
+    <a class="day-card" href="week1-friday-interactive.html" id="card-friday" data-week="1">
+        <div class="day-card-inner">
+            <div class="day-icon fri">&#x2B50;</div>
+            <div class="day-info">
+                <div class="day-name">Friday</div>
+                <div class="day-topics">Review Quiz &bull; Spelling Test &bull; Energy Lab Report</div>
+                <div class="day-subjects">
+                    <span class="tag tag-ela">Review</span>
+                    <span class="tag tag-math">Quiz</span>
+                    <span class="tag tag-science">Lab Report</span>
+                </div>
+            </div>
+            <div class="day-progress">
+                <div class="day-pct zero" id="pct-friday">0%</div>
+                <div class="day-status" id="status-friday">Not Started</div>
+            </div>
+            <div class="day-arrow">&rsaquo;</div>
+        </div>
+    </a>
+
+</div>
+<!-- Standards coverage section — removed for redesign -->
+
+</div><!-- end viewStudent -->
+
+<!-- ========== VIEW 3: PARENT DASHBOARD ========== -->
+<div class="view" id="viewParent">
+    <div class="parent-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; max-width:700px; margin-left:auto; margin-right:auto; padding: 0 16px;">
+            <h3 style="font-family:'Baloo 2',cursive; font-size:22px; font-weight:700; color:var(--blue-dark); margin:0;">Parent Dashboard</h3>
+            <button class="switch-student" onclick="showView('viewStudent')" style="font-size:13px;">Back to Student</button>
+        </div>
+
+        <div class="parent-panel show" id="parentPanel">
+            <h3>Student Progress — <span id="parentStudentLabel">Select a student below</span></h3>
+            <p>See how your students are progressing through Week 1.</p>
+
+            <div id="parentStudentCards"></div>
+
+            <div class="progress-summary" id="progressRings">
+                <div class="progress-day">
+                    <div class="day-label">MON</div>
+                    <div class="day-ring" id="ring-monday">0%</div>
+                </div>
+                <div class="progress-day">
+                    <div class="day-label">TUE</div>
+                    <div class="day-ring" id="ring-tuesday">--</div>
+                </div>
+                <div class="progress-day">
+                    <div class="day-label">WED</div>
+                    <div class="day-ring" id="ring-wednesday">--</div>
+                </div>
+                <div class="progress-day">
+                    <div class="day-label">THU</div>
+                    <div class="day-ring" id="ring-thursday">--</div>
+                </div>
+                <div class="progress-day">
+                    <div class="day-label">FRI</div>
+                    <div class="day-ring" id="ring-friday">--</div>
+                </div>
+            </div>
+
+            <!-- SUBJECT BREAKDOWN -->
+            <div id="subjectBreakdown" style="margin-top: 20px;"></div>
+
+            <!-- RUBRIC INSIGHTS -->
+            <div id="rubricInsights" style="margin-top: 20px;"></div>
+
+            <!-- COACHING SUGGESTIONS -->
+            <div id="coachingSuggestions" style="margin-top: 20px;"></div>
+
+            <!-- USAGE STATS -->
+            <div id="usageStats" style="margin-top: 20px;"></div>
+
+            <!-- AI SCAN ADD-ON -->
+            <div id="aiScanSection" style="margin-top: 20px; padding: 16px; background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%); border: 2px solid #DDD6FE; border-radius: 14px;">
+                <h3 style="font-family:'Baloo 2',cursive; font-size:18px; font-weight:700; color:#5B21B6; margin-bottom:8px;">&#x2728; AI Scan Add-On</h3>
+                <p style="font-size:14px; color:#555; line-height:1.5; margin-bottom:12px;">
+                    The free OCR scanner works great for typed text. For <strong>handwritten worksheets</strong>, upgrade to AI Scan — powered by advanced vision AI that reads your child's handwriting accurately.
+                </p>
+                <ul style="font-size:13px; color:#555; padding-left:18px; margin-bottom:12px; line-height:1.8;">
+                    <li>Reads handwriting with 95%+ accuracy</li>
+                    <li>Auto-fills worksheet answers from photos</li>
+                    <li>Hands-free — no parent correction needed</li>
+                </ul>
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div style="font-family:'Baloo 2',cursive; font-size:24px; font-weight:800; color:#5B21B6;">$1.99<span style="font-size:14px; font-weight:600; color:#888;">/month</span></div>
+                    <button class="upgrade-btn" style="background:linear-gradient(135deg,#7C3AED,#5B21B6);" onclick="alert('AI Scan coming soon! We\'ll notify you when it launches.')">Coming Soon</button>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 20px;">Quick Actions</h3>
+            <p>Print blank worksheets or your student's completed work.</p>
+
+            <button class="btn-print" onclick="window.print()">&#x1F5A8; Print This Page</button>
+            <br>
+            <button class="btn-reset" onclick="resetStudentProgress()">Reset Current Student's Progress</button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="hub-footer">
+    Root Access Learning OS &bull; <a href="https://rootaccess.education">rootaccess.education</a>
+    <br>Week 1: Boot Sequence &bull; Interactive Classroom Edition
+</div>
+
+<script>
+// ==========================================
+// CONFIG
+// ==========================================
+const PROFILES_KEY = 'rootaccess-profiles';
+const ACTIVE_PROFILE_KEY = 'rootaccess-active-profile';
+const TIER_KEY = 'rootaccess-tier';
+const STRIPE_LINK = 'https://buy.stripe.com/8x228refi0SF1en5GL5Rm00';
+const DAY_IDS = ['w1-monday', 'w1-tuesday', 'w1-wednesday', 'w1-thursday', 'w1-friday'];
+const DAY_NAMES = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+const LIVE_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+// Week 1 is FREE. Weeks 2-4 require 'starter' tier.
+const FREE_WEEKS = [1]; // week numbers that are free
+const CURRENT_WEEK = 1;
+
+let activeProfileId = null;
+let selectedAvatar = null;
+let currentTier = 'free'; // 'free' or 'starter'
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// ==========================================
+// PROFILE CRUD
+// ==========================================
+async function getProfiles() {
+    return (await localforage.getItem(PROFILES_KEY)) || [];
+}
+
+async function saveProfiles(profiles) {
+    await localforage.setItem(PROFILES_KEY, profiles);
+}
+
+async function setActiveProfile(id) {
+    activeProfileId = id;
+    await localforage.setItem(ACTIVE_PROFILE_KEY, id);
+}
+
+function getStorageKey(profileId, dayId) {
+    return 'rootaccess-' + profileId + '-' + dayId;
+}
+
+// ==========================================
+// VIEW MANAGEMENT
+// ==========================================
+function showView(viewId) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+}
+
+// ==========================================
+// PROFILE PICKER (VIEW 1)
+// ==========================================
+async function renderProfilePicker() {
+    const profiles = await getProfiles();
+    const grid = document.getElementById('profileGrid');
+    grid.innerHTML = '';
+
+    for (const p of profiles) {
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+        card.innerHTML = '<div class="avatar">' + esc(p.avatar) + '</div><div class="name">' + esc(p.name) + '</div>';
+        card.onclick = () => selectProfile(p.id);
+        grid.appendChild(card);
+    }
+
+    // Add student button
+    const addBtn = document.createElement('div');
+    addBtn.className = 'profile-add';
+    addBtn.innerHTML = '<div class="plus">+</div><div class="label">Add Student</div>';
+    addBtn.onclick = openAddStudent;
+    grid.appendChild(addBtn);
+}
+
+async function selectProfile(id) {
+    await setActiveProfile(id);
+    const profiles = await getProfiles();
+    const profile = profiles.find(p => p.id === id);
+    if (profile) {
+        document.getElementById('studentLabel').textContent = profile.avatar + ' ' + profile.name;
+    }
+    showView('viewStudent');
+    await updateAllProgress();
+    await trackEvent('profile_selected', { profileId: id });
+}
+
+function switchStudent() {
+    showView('viewProfilePicker');
+    renderProfilePicker();
+}
+
+// ==========================================
+// ADD STUDENT MODAL
+// ==========================================
+function openAddStudent() {
+    selectedAvatar = null;
+    document.getElementById('newStudentName').value = '';
+    document.querySelectorAll('.avatar-picker button').forEach(b => b.classList.remove('selected'));
+    // Default select first avatar
+    const first = document.querySelector('.avatar-picker button');
+    if (first) { first.classList.add('selected'); selectedAvatar = first.textContent; }
+    document.getElementById('addStudentModal').classList.add('open');
+    document.getElementById('newStudentName').focus();
+}
+
+function closeAddStudent() {
+    document.getElementById('addStudentModal').classList.remove('open');
+}
+
+function selectAvatar(btn) {
+    document.querySelectorAll('.avatar-picker button').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedAvatar = btn.textContent;
+}
+
+async function confirmAddStudent() {
+    const name = document.getElementById('newStudentName').value.trim();
+    if (!name) { document.getElementById('newStudentName').focus(); return; }
+    const avatar = selectedAvatar || '\u2B50';
+    const id = name.toLowerCase().replace(/[^a-z0-9]/g, '') + '-' + Date.now().toString(36);
+
+    try {
+        const profiles = await getProfiles();
+        profiles.push({ id: id, name: name, avatar: avatar, created: Date.now() });
+        await saveProfiles(profiles);
+        closeAddStudent();
+        await selectProfile(id);
+    } catch(e) {
+        console.error('Failed to add student:', e);
+        alert('Could not save. Please try again.');
+    }
+}
+
+// ==========================================
+// STUDENT DASHBOARD (VIEW 2)
+// ==========================================
+async function getDayProgress(profileId, dayId) {
+    const key = getStorageKey(profileId, dayId);
+    const data = await localforage.getItem(key);
+    if (!data) return 0;
+
+    let filled = 0, total = 0;
+    Object.keys(data).forEach(k => {
+        if (k.startsWith('input-')) {
+            total++;
+            if (data[k] && data[k].trim().length > 0) filled++;
+        }
+        if (k.startsWith('sf-')) { total++; filled++; }
+    });
+    return total === 0 ? 0 : Math.round((filled / total) * 100);
+}
+
+async function updateAllProgress() {
+    if (!activeProfileId) return;
+    let totalPct = 0;
+    let activeDays = 0;
+
+    for (let i = 0; i < DAY_NAMES.length; i++) {
+        const day = DAY_NAMES[i];
+        const dayId = DAY_IDS[i];
+        const isLive = LIVE_DAYS.includes(day);
+        const pct = isLive ? await getDayProgress(activeProfileId, dayId) : 0;
+
+        const pctEl = document.getElementById('pct-' + day);
+        const statusEl = document.getElementById('status-' + day);
+        const cardEl = document.getElementById('card-' + day);
+        const ringEl = document.getElementById('ring-' + day);
+
+        if (isLive) {
+            if (pctEl) {
+                pctEl.textContent = pct + '%';
+                pctEl.className = 'day-pct ' + (pct === 0 ? 'zero' : pct === 100 ? 'done' : 'partial');
+            }
+            if (statusEl) {
+                if (pct === 0) { statusEl.textContent = 'Not started'; statusEl.className = 'day-status'; }
+                else if (pct === 100) { statusEl.textContent = 'Complete!'; statusEl.className = 'day-status done'; if (cardEl) cardEl.classList.add('completed'); }
+                else { statusEl.textContent = 'In progress'; statusEl.className = 'day-status'; }
+            }
+            if (ringEl) {
+                ringEl.textContent = pct + '%';
+                ringEl.className = 'day-ring ' + (pct === 0 ? '' : pct === 100 ? 'done' : 'partial');
+            }
+            totalPct += pct;
+            activeDays++;
+        }
+    }
+
+    const overallPct = activeDays > 0 ? Math.round(totalPct / activeDays) : 0;
+    document.getElementById('overallPct').textContent = overallPct + '%';
+}
+
+// ==========================================
+// PARENT DASHBOARD (VIEW 3)
+// ==========================================
+async function renderParentDashboard() {
+    const profiles = await getProfiles();
+    const container = document.getElementById('parentStudentCards');
+    container.innerHTML = '';
+
+    if (profiles.length === 0) {
+        container.innerHTML = '<p style="color:#999; text-align:center;">No students yet. Go back and add a student first.</p>';
+        return;
+    }
+
+    for (const p of profiles) {
+        let totalPct = 0;
+        let days = 0;
+        for (let i = 0; i < DAY_IDS.length; i++) {
+            if (LIVE_DAYS.includes(DAY_NAMES[i])) {
+                totalPct += await getDayProgress(p.id, DAY_IDS[i]);
+                days++;
+            }
+        }
+        const avg = days > 0 ? Math.round(totalPct / days) : 0;
+
+        const card = document.createElement('div');
+        card.style.cssText = 'display:flex; align-items:center; gap:14px; padding:14px 18px; background:#f8fafc; border:2px solid #e2e8f0; border-radius:12px; margin-bottom:10px; cursor:pointer; transition:all 0.2s;';
+        card.innerHTML =
+            '<span style="font-size:32px;">' + p.avatar + '</span>' +
+            '<div style="flex:1;"><div style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700;">' + esc(p.name) + '</div>' +
+            '<div style="font-family:\'Fredoka\',sans-serif; font-size:12px; color:#888;">Week 1: ' + avg + '% complete</div></div>' +
+            '<div style="font-family:\'Baloo 2\',cursive; font-size:24px; font-weight:800; color:' + (avg === 100 ? 'var(--green)' : avg > 0 ? 'var(--gold)' : '#ccc') + ';">' + avg + '%</div>';
+        card.onmouseover = function() { this.style.borderColor = 'var(--blue)'; };
+        card.onmouseout = function() { this.style.borderColor = '#e2e8f0'; };
+        card.onclick = async function() {
+            await setActiveProfile(p.id);
+            activeProfileId = p.id;
+            document.getElementById('parentStudentLabel').textContent = p.name;
+            await updateParentRings(p.id);
+            await renderSubjectBreakdown(p.id);
+            await renderRubricInsights(p.id);
+            await renderCoachingSuggestions(p.id);
+            await renderUsageStats();
+        };
+        container.appendChild(card);
+    }
+}
+
+async function updateParentRings(profileId) {
+    for (let i = 0; i < DAY_NAMES.length; i++) {
+        const day = DAY_NAMES[i];
+        const ringEl = document.getElementById('ring-' + day);
+        if (!ringEl) continue;
+        if (LIVE_DAYS.includes(day)) {
+            const pct = await getDayProgress(profileId, DAY_IDS[i]);
+            ringEl.textContent = pct + '%';
+            ringEl.className = 'day-ring ' + (pct === 0 ? '' : pct === 100 ? 'done' : 'partial');
+        }
+    }
+}
+
+async function resetStudentProgress() {
+    if (!activeProfileId) { alert('Select a student first.'); return; }
+    const profiles = await getProfiles();
+    const profile = profiles.find(p => p.id === activeProfileId);
+    const name = profile ? profile.name : 'this student';
+    if (!confirm('This will erase all of ' + name + '\'s progress for Week 1. Are you sure?')) return;
+    for (const dayId of DAY_IDS) {
+        await localforage.removeItem(getStorageKey(activeProfileId, dayId));
+        await localforage.removeItem(getStorageKey(activeProfileId, dayId) + '-highlights');
+    }
+    await localforage.removeItem(activeProfileId ? 'rootaccess-' + activeProfileId + '-book-history' : 'rootaccess-book-history');
+    await localforage.removeItem('rootaccess-' + activeProfileId + '-rubric-history');
+    location.reload();
+}
+
+// ==========================================
+// SUBJECT BREAKDOWN + COACHING (PARENT VIEW)
+// ==========================================
+const SUBJECTS = [
+    { key: 'warmup', label: 'Warm-Up', color: '#0891B2' },
+    { key: 'reading', label: 'Reading', color: '#7C3AED' },
+    { key: 'math', label: 'Math', color: '#2563EB' },
+    { key: 'grammar', label: 'Language Arts', color: '#7C3AED' },
+    { key: 'science', label: 'Science', color: '#059669' },
+    { key: 'social', label: 'Social Studies', color: '#EA580C' },
+    { key: 'reflection', label: 'Reflection', color: '#475569' },
+    { key: 'readinglog', label: 'Reading Log', color: '#0891B2' }
+];
+
+async function getSubjectProgress(profileId, dayId) {
+    const key = getStorageKey(profileId, dayId);
+    const data = await localforage.getItem(key);
+    if (!data) return {};
+    const sectionCounts = {};
+    Object.keys(data).forEach(k => {
+        if (k.startsWith('input-')) {
+            // Look up the section from the input index — we stored the raw index
+            // For now, compute from the data keys
+        }
+    });
+    // Count inputs per section from data
+    const results = {};
+    SUBJECTS.forEach(s => { results[s.key] = { filled: 0, total: 0 }; });
+    Object.keys(data).forEach(k => {
+        if (k.startsWith('paper-')) {
+            const sec = k.replace('paper-', '');
+            if (results[sec] && data[k]) {
+                results[sec].filled = 1;
+                results[sec].total = 1;
+            }
+        }
+    });
+    // Also count all inputs that have content
+    let inputIdx = 0;
+    Object.keys(data).forEach(k => {
+        if (k.startsWith('input-') && data[k] && data[k].trim().length > 0) inputIdx++;
+    });
+    // Overall: distribute filled inputs across sections proportionally
+    // This is a simplified version — the daily file knows exact sections
+    const totalInputs = Object.keys(data).filter(k => k.startsWith('input-')).length;
+    const filledInputs = Object.keys(data).filter(k => k.startsWith('input-') && data[k] && data[k].trim().length > 0).length;
+    const sfCount = Object.keys(data).filter(k => k.startsWith('sf-')).length;
+    const totalAll = totalInputs + sfCount;
+    const filledAll = filledInputs + sfCount;
+    return { total: totalAll, filled: filledAll, pct: totalAll > 0 ? Math.round(filledAll / totalAll * 100) : 0 };
+}
+
+async function renderSubjectBreakdown(profileId) {
+    const container = document.getElementById('subjectBreakdown');
+    if (!container) return;
+
+    let totalFilled = 0, totalAll = 0;
+    for (let i = 0; i < DAY_IDS.length; i++) {
+        if (LIVE_DAYS.includes(DAY_NAMES[i])) {
+            const prog = await getSubjectProgress(profileId, DAY_IDS[i]);
+            totalFilled += prog.filled || 0;
+            totalAll += prog.total || 0;
+        }
+    }
+
+    const overallPct = totalAll > 0 ? Math.round(totalFilled / totalAll * 100) : 0;
+
+    let html = '<h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Week Overview</h3>';
+    html += '<div class="subject-bar"><div class="sb-label">Overall</div><div class="sb-track"><div class="sb-fill" style="width:' + overallPct + '%; background:#2563EB;"></div></div><div class="sb-pct" style="color:#2563EB;">' + overallPct + '%</div></div>';
+
+    container.innerHTML = html;
+}
+
+async function renderRubricInsights(profileId) {
+    const container = document.getElementById('rubricInsights');
+    if (!container) return;
+
+    const rubricKey = profileId ? 'rootaccess-' + profileId + '-rubric-history' : 'rootaccess-rubric-history';
+    const history = await localforage.getItem(rubricKey);
+
+    if (!history || Object.keys(history).length === 0) {
+        container.innerHTML = '<h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Mastery Insights</h3><p style="font-size:14px; color:#888;">No rubric reviews yet. Your student can click "Review My Work" in any section to get feedback.</p>';
+        return;
+    }
+
+    let masteryCount = 0, proficientCount = 0, developingCount = 0, beginningCount = 0, totalAssessments = 0;
+    let strengths = [];
+    let growthAreas = [];
+
+    Object.keys(history).forEach(dayKey => {
+        Object.keys(history[dayKey]).forEach(sectionKey => {
+            if (sectionKey.endsWith('-prev')) return;
+            const entry = history[dayKey][sectionKey];
+            if (!entry.results) return;
+            entry.results.forEach(r => {
+                totalAssessments++;
+                if (r.level === 'mastery') masteryCount++;
+                else if (r.level === 'proficient') proficientCount++;
+                else if (r.level === 'developing') developingCount++;
+                else if (r.level === 'beginning') beginningCount++;
+            });
+
+            // Track section-level trends
+            const sectionMastery = entry.results.filter(r => r.level === 'mastery' || r.level === 'proficient').length;
+            const sectionTotal = entry.results.length;
+            const cleanSection = sectionKey.replace(/^.*-/, '');
+            if (sectionMastery >= sectionTotal * 0.7) {
+                strengths.push(cleanSection);
+            } else if (sectionMastery < sectionTotal * 0.3) {
+                growthAreas.push(cleanSection);
+            }
+        });
+    });
+
+    let html = '<h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Mastery Insights</h3>';
+
+    if (totalAssessments > 0) {
+        const masteryPct = Math.round((masteryCount + proficientCount) / totalAssessments * 100);
+        html += '<p style="font-size:14px; color:#555; margin-bottom:12px;">' + totalAssessments + ' questions assessed &bull; ' + masteryPct + '% at proficient or above</p>';
+
+        if (strengths.length > 0) {
+            html += '<div class="insight-card insight-strength"><span class="insight-icon">\u2B50</span><strong>Strengths:</strong> Doing well in ' + [...new Set(strengths)].join(', ') + '. Keep up the great work!</div>';
+        }
+        if (growthAreas.length > 0) {
+            html += '<div class="insight-card insight-growth"><span class="insight-icon">\uD83D\uDCAA</span><strong>Growth areas:</strong> Could use more practice in ' + [...new Set(growthAreas)].join(', ') + '. Review the tips provided after each question.</div>';
+        }
+        if (masteryPct >= 80) {
+            html += '<div class="insight-card insight-tip"><span class="insight-icon">\uD83C\uDF1F</span>Your student is showing strong understanding across subjects. Consider the challenge problems for extra growth!</div>';
+        } else if (masteryPct >= 50) {
+            html += '<div class="insight-card insight-tip"><span class="insight-icon">\uD83D\uDE80</span>Good progress! Encourage your student to re-read passages and try revising their answers after reading the feedback.</div>';
+        } else {
+            html += '<div class="insight-card insight-tip"><span class="insight-icon">\u270D\uFE0F</span>Your student is building skills. Sit with them on the guided practice sections and talk through the answers together.</div>';
+        }
+    }
+
+    container.innerHTML = html;
+}
+
+async function renderUsageStats() {
+    const container = document.getElementById('usageStats');
+    if (!container) return;
+
+    const summary = await getAnalyticsSummary();
+
+    let html = '<h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Usage Stats</h3>';
+    html += '<div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">';
+
+    html += '<div style="text-align:center; padding:12px; background:#f8fafc; border-radius:10px; border:2px solid #e2e8f0;">';
+    html += '<div style="font-family:\'Baloo 2\',cursive; font-size:24px; font-weight:800; color:var(--blue);">' + summary.uniqueDays + '</div>';
+    html += '<div style="font-family:\'Fredoka\',sans-serif; font-size:11px; color:#888;">Active Days</div></div>';
+
+    html += '<div style="text-align:center; padding:12px; background:#f8fafc; border-radius:10px; border:2px solid #e2e8f0;">';
+    html += '<div style="font-family:\'Baloo 2\',cursive; font-size:24px; font-weight:800; color:var(--green);">' + summary.sectionCompletions + '</div>';
+    html += '<div style="font-family:\'Fredoka\',sans-serif; font-size:11px; color:#888;">Sections Done</div></div>';
+
+    html += '<div style="text-align:center; padding:12px; background:#f8fafc; border-radius:10px; border:2px solid #e2e8f0;">';
+    html += '<div style="font-family:\'Baloo 2\',cursive; font-size:24px; font-weight:800; color:var(--purple);">' + summary.rubricReviews + '</div>';
+    html += '<div style="font-family:\'Fredoka\',sans-serif; font-size:11px; color:#888;">Reviews</div></div>';
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+async function renderCoachingSuggestions(profileId) {
+    const container = document.getElementById('coachingSuggestions');
+    if (!container) return;
+
+    // Check for paper-completed sections
+    let paperSections = [];
+    for (let i = 0; i < DAY_IDS.length; i++) {
+        if (!LIVE_DAYS.includes(DAY_NAMES[i])) continue;
+        const key = getStorageKey(profileId, DAY_IDS[i]);
+        const data = await localforage.getItem(key);
+        if (!data) continue;
+        Object.keys(data).forEach(k => {
+            if (k.startsWith('paper-') && data[k]) {
+                paperSections.push(k.replace('paper-', '') + ' (' + DAY_NAMES[i] + ')');
+            }
+        });
+    }
+
+    let html = '<h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Coaching Notes</h3>';
+
+    if (paperSections.length > 0) {
+        html += '<div class="insight-card insight-tip"><span class="insight-icon">\uD83D\uDCDD</span><strong>Completed on paper:</strong> ' + paperSections.join(', ') + '. Remember to review these worksheets in your student\'s portfolio.</div>';
+    }
+
+    html += '<div class="insight-card insight-tip"><span class="insight-icon">\uD83D\uDCA1</span><strong>Tip:</strong> Ask your student to tell you one thing they learned today. Narrating what they learned builds retention and confidence.</div>';
+
+    container.innerHTML = html;
+}
+
+// ==========================================
+// TIER GATING
+// ==========================================
+async function loadTier() {
+    // Check URL params first — Stripe redirect sets ?unlock=starter
+    const params = new URLSearchParams(window.location.search);
+    const unlockParam = params.get('unlock');
+    if (unlockParam === 'starter') {
+        await localforage.setItem(TIER_KEY, 'starter');
+        // Clean URL without reload
+        window.history.replaceState({}, '', window.location.pathname);
+        await trackEvent('tier_unlocked', { tier: 'starter' });
+    }
+
+    currentTier = (await localforage.getItem(TIER_KEY)) || 'free';
+    return currentTier;
+}
+
+function isWeekUnlocked(weekNum) {
+    if (FREE_WEEKS.includes(weekNum)) return true;
+    return currentTier === 'starter' || currentTier === 'full';
+}
+
+function applyTierGating() {
+    const upgradeLink = document.getElementById('upgradeLink');
+    if (upgradeLink) upgradeLink.href = STRIPE_LINK;
+
+    // For now, Week 1 is the only week with content.
+    // When Weeks 2-4 are added, their day cards will have data-week="2" etc.
+    // Gate future week cards
+    document.querySelectorAll('.day-card[data-week]').forEach(card => {
+        const week = parseInt(card.dataset.week);
+        if (week && !isWeekUnlocked(week)) {
+            card.classList.add('locked');
+            card.style.pointerEvents = 'none';
+            card.onclick = function(e) { e.preventDefault(); };
+        } else {
+            card.classList.remove('locked');
+            card.style.pointerEvents = '';
+        }
+    });
+
+    // Show/hide upgrade banner
+    const banner = document.getElementById('upgradeBanner');
+    if (banner) {
+        // Show banner if on free tier (even if no locked content yet — it's a soft upsell)
+        banner.classList.toggle('show', currentTier === 'free');
+    }
+
+    // Update week label with tier badge
+    const weekLabel = document.querySelector('.week-label');
+    if (weekLabel) {
+        const existingBadge = weekLabel.querySelector('.tier-badge');
+        if (existingBadge) existingBadge.remove();
+        const badge = document.createElement('span');
+        badge.className = 'tier-badge ' + (currentTier === 'free' ? 'tier-free' : 'tier-starter');
+        badge.textContent = currentTier === 'free' ? 'FREE' : 'STARTER PACK';
+        weekLabel.appendChild(badge);
+    }
+}
+
+// ==========================================
+// ANALYTICS — Lightweight event tracking
+// ==========================================
+const ANALYTICS_KEY = 'rootaccess-analytics';
+
+async function trackEvent(eventName, data) {
+    const events = (await localforage.getItem(ANALYTICS_KEY)) || [];
+    events.push({
+        event: eventName,
+        data: data || {},
+        timestamp: Date.now(),
+        profile: activeProfileId || 'none',
+        tier: currentTier
+    });
+    // Cap at 500 events to prevent unbounded growth
+    if (events.length > 500) events.splice(0, events.length - 500);
+    await localforage.setItem(ANALYTICS_KEY, events);
+}
+
+async function getAnalyticsSummary() {
+    const events = (await localforage.getItem(ANALYTICS_KEY)) || [];
+    const now = Date.now();
+    const last7Days = events.filter(e => now - e.timestamp < 7 * 24 * 60 * 60 * 1000);
+
+    const summary = {
+        totalEvents: events.length,
+        last7Days: last7Days.length,
+        pageViews: events.filter(e => e.event === 'page_view').length,
+        sectionCompletions: events.filter(e => e.event === 'section_complete').length,
+        rubricReviews: events.filter(e => e.event === 'rubric_review').length,
+        uniqueDays: [...new Set(events.map(e => new Date(e.timestamp).toDateString()))].length,
+        avgEventsPerDay: 0
+    };
+    if (summary.uniqueDays > 0) summary.avgEventsPerDay = Math.round(summary.totalEvents / summary.uniqueDays);
+    return summary;
+}
+
+// ==========================================
+// INIT
+// ==========================================
+// Register service worker for PWA + offline + iOS data persistence
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').catch(() => {});
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // ?reset=true clears all data for a clean demo
+        if (new URLSearchParams(window.location.search).get('reset') === 'true') {
+            try { await localforage.clear(); } catch(e) { console.warn('localforage clear:', e); }
+            try { localStorage.clear(); } catch(e) {}
+            window.history.replaceState({}, '', window.location.pathname);
+            console.log('All data cleared.');
+        }
+        // Load tier status (and handle Stripe redirect unlock)
+        await loadTier();
+        applyTierGating();
+
+        // Track page view
+        try { await trackEvent('page_view', { page: 'hub' }); } catch(e) {}
+
+        // Check if there's an active profile — if so, go straight to student view
+        const lastProfile = await localforage.getItem(ACTIVE_PROFILE_KEY);
+        const profiles = await getProfiles();
+
+        if (lastProfile && profiles.find(p => p.id === lastProfile)) {
+            activeProfileId = lastProfile;
+            const profile = profiles.find(p => p.id === lastProfile);
+            document.getElementById('studentLabel').textContent = profile.avatar + ' ' + profile.name;
+            showView('viewStudent');
+        } else {
+            showView('viewProfilePicker');
+        }
+    } catch(e) {
+        console.error('Init error:', e);
+        showView('viewProfilePicker');
+    }
+});
+
+// Override showView to load data when switching views
+const _showView = showView;
+showView = async function(viewId) {
+    _showView(viewId);
+    if (viewId === 'viewProfilePicker') await renderProfilePicker();
+    if (viewId === 'viewParent') await renderParentDashboard();
+    if (viewId === 'viewStudent' && activeProfileId) await updateAllProgress();
+};
+</script>
+</body>
+</html>
