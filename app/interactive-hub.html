@@ -622,6 +622,167 @@ body {
 .insight-growth { background: #FFFBEB; border: 1.5px solid #FDE68A; color: #92400E; }
 .insight-tip { background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #1E40AF; }
 
+/* === STANDARDS PANEL (STUDENT VIEW) === */
+.standards-panel {
+    max-width: 700px;
+    margin: 0 auto 28px;
+    padding: 0 16px;
+}
+.sp-card {
+    background: white;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.sp-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+}
+.sp-header:hover { background: #f8fafc; }
+.sp-header .sp-icon { font-size: 20px; }
+.sp-header .sp-title {
+    flex: 1;
+    font-family: 'Baloo 2', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--blue-dark);
+}
+.sp-header .sp-count {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+}
+.sp-header .sp-chevron {
+    font-size: 18px;
+    color: #999;
+    transition: transform 0.2s;
+}
+.sp-card.open .sp-chevron { transform: rotate(90deg); }
+.sp-body { display: none; padding: 0 20px 16px; }
+.sp-card.open .sp-body { display: block; }
+
+/* Subject groups inside standards */
+.std-subject-group { margin-bottom: 8px; }
+.std-subject-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+}
+.std-subject-header:hover { background: #f1f5f9; }
+.std-subject-header .ssh-icon { font-size: 16px; }
+.std-subject-header .ssh-label {
+    flex: 1;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+.std-subject-header .ssh-count {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+}
+.std-subject-header .ssh-chevron { font-size: 14px; color: #999; transition: transform 0.2s; }
+.std-subject-group.open .ssh-chevron { transform: rotate(90deg); }
+.std-subject-body { display: none; padding: 6px 0 4px 12px; }
+.std-subject-group.open .std-subject-body { display: block; }
+
+/* Individual standard items */
+.std-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    flex-wrap: wrap;
+}
+.std-item:last-child { border-bottom: none; }
+.std-code {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+.std-desc {
+    flex: 1;
+    font-size: 12px;
+    color: #555;
+    min-width: 120px;
+}
+.std-days {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+.std-day-dot {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #f1f5f9;
+    color: #888;
+}
+.std-day-dot.covered { background: #ECFDF5; color: #059669; }
+.std-status { font-size: 14px; margin-left: 4px; }
+
+/* === PARENT STANDARDS DASHBOARD === */
+.parent-standards { margin-top: 20px; }
+.ps-overall {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 14px;
+}
+.ps-big-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1;
+}
+.ps-big-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    color: #888;
+}
+.ps-track {
+    flex: 1;
+    height: 14px;
+    background: #e2e8f0;
+    border-radius: 7px;
+    overflow: hidden;
+}
+.ps-fill {
+    height: 100%;
+    border-radius: 7px;
+    background: var(--blue);
+    transition: width 0.4s;
+}
+
+@media (max-width: 600px) {
+    .std-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .ps-overall { flex-direction: column; text-align: center; }
+}
+
 /* === UPGRADE BANNER === */
 .upgrade-banner {
     max-width: 700px;
@@ -872,7 +1033,20 @@ body {
     </a>
 
 </div>
-<!-- Standards coverage section — removed for redesign -->
+<!-- STANDARDS PANEL -->
+<div class="standards-panel">
+    <div class="sp-card" id="studentStandardsCard">
+        <div class="sp-header" onclick="toggleStudentStandards()">
+            <span class="sp-icon">&#x1F4CB;</span>
+            <span class="sp-title">Week 1 Standards</span>
+            <span class="sp-count" id="studentStdCount">0/22 covered</span>
+            <span class="sp-chevron">&#x203A;</span>
+        </div>
+        <div class="sp-body" id="studentStdBody">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+</div>
 
 </div><!-- end viewStudent -->
 
@@ -924,6 +1098,9 @@ body {
 
             <!-- USAGE STATS -->
             <div id="usageStats" style="margin-top: 20px;"></div>
+
+            <!-- STANDARDS DASHBOARD -->
+            <div id="standardsDashboard" style="margin-top: 20px;"></div>
 
             <!-- AI SCAN ADD-ON -->
             <div id="aiScanSection" style="margin-top: 20px; padding: 16px; background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%); border: 2px solid #DDD6FE; border-radius: 14px;">
@@ -1190,8 +1367,17 @@ async function renderParentDashboard() {
             await renderRubricInsights(p.id);
             await renderCoachingSuggestions(p.id);
             await renderUsageStats();
+            await renderParentStandards(p.id);
         };
         container.appendChild(card);
+    }
+
+    // Show default message in standards dashboard
+    const stdDash = document.getElementById('standardsDashboard');
+    if (stdDash && !activeProfileId) {
+        stdDash.innerHTML = '<div class="parent-standards"><h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Standards Coverage</h3><p style="font-size:14px; color:#888;">Select a student above to see their standards coverage.</p></div>';
+    } else if (stdDash && activeProfileId) {
+        await renderParentStandards(activeProfileId);
     }
 }
 
@@ -1236,6 +1422,210 @@ const SUBJECTS = [
     { key: 'reflection', label: 'Reflection', color: '#475569' },
     { key: 'readinglog', label: 'Reading Log', color: '#0891B2' }
 ];
+
+// ==========================================
+// STANDARDS DATABASE — 22 real 4th-grade standards
+// ==========================================
+const STANDARDS_SUBJECTS = [
+    { key: 'math', label: 'Math', icon: '\uD83D\uDCCA', color: '#2563EB', bg: '#EFF6FF' },
+    { key: 'ela', label: 'ELA', icon: '\uD83D\uDCDA', color: '#7C3AED', bg: '#F5F3FF' },
+    { key: 'science', label: 'Science', icon: '\uD83E\uDDEA', color: '#059669', bg: '#ECFDF5' },
+    { key: 'social', label: 'Social Studies', icon: '\uD83C\uDF0D', color: '#EA580C', bg: '#FFF7ED' }
+];
+
+const STANDARDS_DB = {
+    // Math — CCSS 4.NBT
+    '4.NBT.1': { subject: 'math', code: '4.NBT.1', desc: 'Recognize that a digit in one place represents ten times what it represents in the place to its right', weeks: { 1: ['monday', 'tuesday'] } },
+    '4.NBT.2': { subject: 'math', code: '4.NBT.2', desc: 'Read and write multi-digit whole numbers using base-ten numerals, number names, and expanded form', weeks: { 1: ['tuesday', 'thursday'] } },
+    '4.NBT.3': { subject: 'math', code: '4.NBT.3', desc: 'Use place value understanding to round multi-digit whole numbers to any place', weeks: { 1: ['wednesday', 'friday'] } },
+    // ELA — CCSS 4.RI (Reading Informational)
+    '4.RI.1': { subject: 'ela', code: '4.RI.1', desc: 'Refer to details and examples in a text when explaining what the text says explicitly', weeks: { 1: ['monday', 'wednesday'] } },
+    '4.RI.2': { subject: 'ela', code: '4.RI.2', desc: 'Determine the main idea of a text and explain how it is supported by key details', weeks: { 1: ['monday', 'wednesday'] } },
+    '4.RI.4': { subject: 'ela', code: '4.RI.4', desc: 'Determine the meaning of general academic and domain-specific words or phrases in a text', weeks: { 1: ['monday', 'wednesday', 'friday'] } },
+    // ELA — CCSS 4.RL (Reading Literature)
+    '4.RL.1': { subject: 'ela', code: '4.RL.1', desc: 'Refer to details and examples in a text when drawing inferences', weeks: { 1: ['tuesday', 'thursday'] } },
+    '4.RL.2': { subject: 'ela', code: '4.RL.2', desc: 'Determine a theme of a story, drama, or poem from details in the text', weeks: { 1: ['tuesday', 'thursday'] } },
+    '4.RL.4': { subject: 'ela', code: '4.RL.4', desc: 'Determine the meaning of words and phrases as they are used in a text', weeks: { 1: ['tuesday'] } },
+    '4.RL.5': { subject: 'ela', code: '4.RL.5', desc: 'Explain major differences between poems, drama, and prose', weeks: { 1: ['thursday'] } },
+    // ELA — CCSS 4.W (Writing)
+    '4.W.2': { subject: 'ela', code: '4.W.2', desc: 'Write informative/explanatory texts to examine a topic and convey ideas clearly', weeks: { 1: ['monday', 'wednesday', 'friday'] } },
+    '4.W.5': { subject: 'ela', code: '4.W.5', desc: 'Develop and strengthen writing by planning, revising, and editing', weeks: { 1: ['thursday', 'friday'] } },
+    // ELA — CCSS 4.L (Language)
+    '4.L.1f': { subject: 'ela', code: '4.L.1f', desc: 'Produce complete sentences, recognizing and correcting fragments and run-ons', weeks: { 1: ['monday', 'wednesday'] } },
+    '4.L.1a': { subject: 'ela', code: '4.L.1a', desc: 'Use relative pronouns and relative adverbs', weeks: { 1: ['tuesday'] } },
+    '4.L.2a': { subject: 'ela', code: '4.L.2a', desc: 'Use correct capitalization', weeks: { 1: ['monday', 'tuesday'] } },
+    '4.L.2b': { subject: 'ela', code: '4.L.2b', desc: 'Use commas and quotation marks to mark direct speech', weeks: { 1: ['wednesday', 'thursday'] } },
+    '4.L.2d': { subject: 'ela', code: '4.L.2d', desc: 'Spell grade-appropriate words correctly', weeks: { 1: ['monday', 'friday'] } },
+    // Science — NGSS 4-PS3
+    '4-PS3-1': { subject: 'science', code: '4-PS3-1', desc: 'Use evidence to construct an explanation relating the speed of an object to the energy of that object', weeks: { 1: ['monday', 'wednesday'] } },
+    '4-PS3-3': { subject: 'science', code: '4-PS3-3', desc: 'Ask questions about the transfer of energy from place to place', weeks: { 1: ['wednesday', 'friday'] } },
+    '4-PS3-4': { subject: 'science', code: '4-PS3-4', desc: 'Apply scientific ideas to design a device that converts energy from one form to another', weeks: { 1: ['friday'] } },
+    // Social Studies — MI GLCEs
+    '4-G1.0.1': { subject: 'social', code: '4-G1.0.1', desc: 'Identify the location of Michigan and describe its major physical features', weeks: { 1: ['monday', 'tuesday'] } },
+    '4-G1.0.2': { subject: 'social', code: '4-G1.0.2', desc: 'Use geographic tools to identify and describe Michigan regions', weeks: { 1: ['tuesday'] } },
+    '4-H3.0.1': { subject: 'social', code: '4-H3.0.1', desc: 'Identify the cultures and daily life of the peoples of the Three Fires Confederacy', weeks: { 1: ['thursday'] } },
+    '4-H3.0.3': { subject: 'social', code: '4-H3.0.3', desc: 'Describe the Anishinaabe relationship with the environment and natural resources', weeks: { 1: ['thursday'] } }
+};
+
+function getStandardsForWeek(weekNum) {
+    const results = [];
+    Object.values(STANDARDS_DB).forEach(s => {
+        if (s.weeks[weekNum]) results.push(s);
+    });
+    return results;
+}
+
+async function getCoveredStandards(profileId) {
+    if (!profileId) return new Set();
+    const dayPcts = {};
+    for (let i = 0; i < DAY_NAMES.length; i++) {
+        dayPcts[DAY_NAMES[i]] = await getDayProgress(profileId, DAY_IDS[i]);
+    }
+    const covered = new Set();
+    Object.entries(STANDARDS_DB).forEach(([code, std]) => {
+        Object.entries(std.weeks).forEach(([week, days]) => {
+            const completedDays = days.filter(d => (dayPcts[d] || 0) >= 50);
+            if (completedDays.length > 0) covered.add(code);
+        });
+    });
+    return covered;
+}
+
+async function getCoveredDays(profileId) {
+    if (!profileId) return {};
+    const dayPcts = {};
+    for (let i = 0; i < DAY_NAMES.length; i++) {
+        dayPcts[DAY_NAMES[i]] = await getDayProgress(profileId, DAY_IDS[i]);
+    }
+    return dayPcts;
+}
+
+// ==========================================
+// STUDENT STANDARDS RENDERER
+// ==========================================
+function toggleStudentStandards() {
+    document.getElementById('studentStandardsCard').classList.toggle('open');
+    const card = document.getElementById('studentStandardsCard');
+    if (card.classList.contains('open')) renderStudentStandards();
+}
+
+function toggleStdSubject(el) {
+    el.closest('.std-subject-group').classList.toggle('open');
+}
+
+async function renderStudentStandards() {
+    const body = document.getElementById('studentStdBody');
+    const weekStandards = getStandardsForWeek(CURRENT_WEEK);
+    const covered = await getCoveredStandards(activeProfileId);
+    const dayPcts = await getCoveredDays(activeProfileId);
+    const coveredCount = weekStandards.filter(s => covered.has(s.code)).length;
+    document.getElementById('studentStdCount').textContent = coveredCount + '/' + weekStandards.length + ' covered';
+
+    const DAY_ABBREV = { monday: 'MON', tuesday: 'TUE', wednesday: 'WED', thursday: 'THU', friday: 'FRI' };
+    let html = '';
+    STANDARDS_SUBJECTS.forEach(subj => {
+        const subjStds = weekStandards.filter(s => s.subject === subj.key);
+        if (subjStds.length === 0) return;
+        const subjCovered = subjStds.filter(s => covered.has(s.code)).length;
+        html += '<div class="std-subject-group">';
+        html += '<div class="std-subject-header" onclick="toggleStdSubject(this)" style="border-left:3px solid ' + subj.color + ';">';
+        html += '<span class="ssh-icon">' + subj.icon + '</span>';
+        html += '<span class="ssh-label" style="color:' + subj.color + ';">' + subj.label + '</span>';
+        html += '<span class="ssh-count">' + subjCovered + '/' + subjStds.length + '</span>';
+        html += '<span class="ssh-chevron">&#x203A;</span>';
+        html += '</div>';
+        html += '<div class="std-subject-body">';
+        subjStds.forEach(std => {
+            const isCovered = covered.has(std.code);
+            const days = std.weeks[CURRENT_WEEK] || [];
+            html += '<div class="std-item">';
+            html += '<span class="std-code" style="background:' + subj.bg + '; color:' + subj.color + ';">' + std.code + '</span>';
+            html += '<span class="std-desc">' + std.desc + '</span>';
+            html += '<span class="std-days">';
+            days.forEach(d => {
+                const dayCovered = (dayPcts[d] || 0) >= 50;
+                html += '<span class="std-day-dot' + (dayCovered ? ' covered' : '') + '">' + DAY_ABBREV[d] + '</span>';
+            });
+            html += '</span>';
+            html += '<span class="std-status">' + (isCovered ? '\u2705' : '\u2B1C') + '</span>';
+            html += '</div>';
+        });
+        html += '</div></div>';
+    });
+    body.innerHTML = html;
+}
+
+// ==========================================
+// PARENT STANDARDS DASHBOARD RENDERER
+// ==========================================
+async function renderParentStandards(profileId) {
+    const container = document.getElementById('standardsDashboard');
+    if (!container) return;
+    if (!profileId) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const allStandards = Object.values(STANDARDS_DB);
+    const covered = await getCoveredStandards(profileId);
+    const coveredCount = allStandards.filter(s => covered.has(s.code)).length;
+    const total = allStandards.length;
+    const pct = total > 0 ? Math.round(coveredCount / total * 100) : 0;
+
+    const DAY_ABBREV = { monday: 'MON', tuesday: 'TUE', wednesday: 'WED', thursday: 'THU', friday: 'FRI' };
+
+    let html = '<div class="parent-standards">';
+    html += '<h3 style="font-family:\'Baloo 2\',cursive; font-size:18px; font-weight:700; color:#1E40AF; margin-bottom:10px;">Standards Coverage</h3>';
+
+    // Overall bar
+    html += '<div class="ps-overall">';
+    html += '<div><div class="ps-big-num">' + coveredCount + '/' + total + '</div>';
+    html += '<div class="ps-big-label">standards covered</div></div>';
+    html += '<div class="ps-track"><div class="ps-fill" style="width:' + pct + '%;"></div></div>';
+    html += '</div>';
+
+    // Per-subject progress bars
+    STANDARDS_SUBJECTS.forEach(subj => {
+        const subjStds = allStandards.filter(s => s.subject === subj.key);
+        if (subjStds.length === 0) return;
+        const subjCovered = subjStds.filter(s => covered.has(s.code)).length;
+        const subjPct = Math.round(subjCovered / subjStds.length * 100);
+
+        html += '<div class="std-subject-group" style="margin-bottom:6px;">';
+        html += '<div class="std-subject-header" onclick="toggleStdSubject(this)" style="border-left:3px solid ' + subj.color + ';">';
+        html += '<span class="ssh-icon">' + subj.icon + '</span>';
+        html += '<span class="ssh-label" style="color:' + subj.color + ';">' + subj.label + '</span>';
+        html += '<span class="ssh-count">' + subjCovered + '/' + subjStds.length + ' (' + subjPct + '%)</span>';
+        html += '<span class="ssh-chevron">&#x203A;</span>';
+        html += '</div>';
+        html += '<div class="std-subject-body">';
+
+        // Subject progress bar
+        html += '<div class="subject-bar" style="padding:6px 8px;"><div class="sb-track"><div class="sb-fill" style="width:' + subjPct + '%; background:' + subj.color + ';"></div></div><div class="sb-pct" style="color:' + subj.color + ';">' + subjPct + '%</div></div>';
+
+        // Individual standards
+        subjStds.forEach(std => {
+            const isCovered = covered.has(std.code);
+            const weekEntries = Object.entries(std.weeks);
+            html += '<div class="std-item">';
+            html += '<span class="std-code" style="background:' + subj.bg + '; color:' + subj.color + ';">' + std.code + '</span>';
+            html += '<span class="std-desc">' + std.desc + '</span>';
+            html += '<span class="std-days">';
+            weekEntries.forEach(([wk, days]) => {
+                days.forEach(d => {
+                    html += '<span class="std-day-dot">W' + wk + ' ' + DAY_ABBREV[d] + '</span>';
+                });
+            });
+            html += '</span>';
+            html += '<span class="std-status">' + (isCovered ? '\u2705' : '\u2B1C') + '</span>';
+            html += '</div>';
+        });
+        html += '</div></div>';
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+}
 
 async function getSubjectProgress(profileId, dayId) {
     const key = getStorageKey(profileId, dayId);
@@ -1561,7 +1951,10 @@ showView = async function(viewId) {
     _showView(viewId);
     if (viewId === 'viewProfilePicker') await renderProfilePicker();
     if (viewId === 'viewParent') await renderParentDashboard();
-    if (viewId === 'viewStudent' && activeProfileId) await updateAllProgress();
+    if (viewId === 'viewStudent' && activeProfileId) {
+        await updateAllProgress();
+        if (document.getElementById('studentStandardsCard').classList.contains('open')) await renderStudentStandards();
+    }
 };
 </script>
 </body>
