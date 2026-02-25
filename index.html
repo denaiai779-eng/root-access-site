@@ -1185,6 +1185,117 @@
             line-height: 1.75;
         }
 
+        /* ---- CONSULTING / WORK WITH ME ---- */
+        .consulting {
+            background: var(--gray-50);
+        }
+
+        .consulting-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .consulting-header .section-label {
+            color: var(--blue);
+        }
+
+        .consulting-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            color: var(--gray-500);
+        }
+
+        .consulting-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .consulting-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .consulting-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-100);
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .consulting-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .consulting-card-duration {
+            font-family: var(--font-label);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 4px;
+        }
+
+        .consulting-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .consulting-card-price {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--blue);
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .consulting-card-desc {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        .consulting-card-features {
+            list-style: none;
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .consulting-card-features li {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            padding: 6px 0;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .consulting-card-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 18px;
+            height: 18px;
+            background: var(--green-50);
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23059669'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+            background-size: 14px 14px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
         /* ---- FINAL CTA ---- */
         .final-cta {
             background: linear-gradient(135deg, var(--blue-50) 0%, var(--purple-50) 50%, var(--green-50) 100%);
@@ -1273,9 +1384,10 @@
             Root Access
         </div>
         <ul class="nav-links">
-            <li><a href="#whats-inside">What's Inside</a></li>
+            <li><a href="#the-problem">Why Root Access</a></li>
             <li><a href="#preview">Preview</a></li>
             <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#consulting">Consulting</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#pricing" class="nav-cta">Get Free Week</a></li>
         </ul>
@@ -1335,11 +1447,93 @@
     </div>
 </div>
 
-<!-- DAILY SCHEDULE -->
+<!-- THE PROBLEM -->
+<section class="different" id="the-problem">
+    <div class="container">
+        <div class="different-header">
+            <span class="section-label" style="color: var(--red);">Sound Familiar?</span>
+            <h2>You've Been Piecing It Together. It Shouldn't Be This Hard.</h2>
+            <p>One program for math. Another for reading. A Pinterest board for science. A Facebook group for social studies ideas. Nothing matches, nothing flows, and by Tuesday you're already behind.</p>
+        </div>
+        <div class="diff-grid">
+            <div class="diff-card" style="text-align: center; border-color: var(--red-50);">
+                <div class="diff-icon" style="background: var(--red-50); margin: 0 auto 16px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <h3>6 Different Programs</h3>
+                <p>Buying separate curricula for every subject. Different formats, different schedules, different philosophies. Chaos.</p>
+            </div>
+            <div class="diff-card" style="text-align: center; border-color: var(--red-50);">
+                <div class="diff-icon" style="background: var(--red-50); margin: 0 auto 16px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <h3>"Columbus Discovered America"</h3>
+                <p>The best-looking curricula are religious. The secular ones are bare bones. And none of them tell the whole story.</p>
+            </div>
+            <div class="diff-card" style="text-align: center; border-color: var(--red-50);">
+                <div class="diff-icon" style="background: var(--red-50); margin: 0 auto 16px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <h3>Hours of Prep Every Night</h3>
+                <p>You're up at midnight printing worksheets, watching YouTube tutorials, and wondering if you're doing enough.</p>
+            </div>
+            <div class="diff-card" style="text-align: center; border-color: var(--red-50);">
+                <div class="diff-icon" style="background: var(--red-50); margin: 0 auto 16px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <h3>No Math. No Science.</h3>
+                <p>The pretty all-in-one programs skip math and science entirely. So you're back to buying more programs anyway.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THE SOLUTION: WHAT MAKES US DIFFERENT -->
+<section class="different" id="different" style="background: var(--gray-50);">
+    <div class="container">
+        <div class="different-header">
+            <span class="section-label" style="color: var(--green);">The Fix</span>
+            <h2>One Book. All Seven Subjects. Zero Guesswork.</h2>
+            <p>We built what we couldn't find anywhere else: a complete, inclusive, beautiful curriculum that doesn't ask you to piece five programs together.</p>
+        </div>
+        <div class="diff-grid">
+            <div class="diff-card">
+                <div class="diff-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </div>
+                <h3>All Seven Subjects in One Book</h3>
+                <p>Reading, Math, Grammar, Science, Social Studies, Writing, and Spelling. No buying six different programs and trying to Frankenstein a schedule. Open the book. Teach the day.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3>De-Colonized From Page One</h3>
+                <p>Indigenous peoples presented as civilizations with governance, trade, and agency. The Great Migration, labor movements, and civil rights taught through the eyes of those who lived them. No more "Columbus discovered America."</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <h3>Hands-On Science, Real Materials</h3>
+                <p>Not worksheets about science. Actual experiments with household materials. Aligned to Next Generation Science Standards. Your child will build, test, observe, and record like a real scientist.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Built for Real Parents</h3>
+                <p>Every lesson is fully scripted with word-for-word dialogue. No prep beyond reading the page. Answer keys included. Differentiation built in for kids who are ahead or behind. If you can read, you can teach.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS: DAILY SCHEDULE -->
 <section class="schedule" id="whats-inside">
     <div class="container">
         <div class="schedule-header">
-            <span class="section-label">What's Inside</span>
+            <span class="section-label">How It Works</span>
             <h2>A Full Day of Learning, Planned for You</h2>
             <p>Every daily lesson follows this structure. Just open the book and go. Each block is scripted with parent dialogue, student activities, and answer keys included.</p>
         </div>
@@ -1429,52 +1623,11 @@
     </div>
 </section>
 
-<!-- WHAT MAKES US DIFFERENT -->
-<section class="different" id="different">
-    <div class="container">
-        <div class="different-header">
-            <span class="section-label">What Makes Us Different</span>
-            <h2>Not Just Another Curriculum Binder</h2>
-            <p>We built what we couldn't find anywhere else: a complete, inclusive, beautiful curriculum that doesn't ask you to piece five programs together.</p>
-        </div>
-        <div class="diff-grid">
-            <div class="diff-card">
-                <div class="diff-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                </div>
-                <h3>All Seven Subjects in One Book</h3>
-                <p>Reading, Math, Grammar, Science, Social Studies, Writing, and Spelling. No buying six different programs and trying to Frankenstein a schedule. Open the book. Teach the day.</p>
-            </div>
-            <div class="diff-card">
-                <div class="diff-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                </div>
-                <h3>De-Colonized From Page One</h3>
-                <p>Indigenous peoples presented as civilizations with governance, trade, and agency. The Great Migration, labor movements, and civil rights taught through the eyes of those who lived them. No more "Columbus discovered America."</p>
-            </div>
-            <div class="diff-card">
-                <div class="diff-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                </div>
-                <h3>Hands-On Science, Real Materials</h3>
-                <p>Not worksheets about science. Actual experiments with household materials. Aligned to Next Generation Science Standards. Your child will build, test, observe, and record like a real scientist.</p>
-            </div>
-            <div class="diff-card">
-                <div class="diff-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                </div>
-                <h3>Built for Real Parents</h3>
-                <p>Every lesson is fully scripted with word-for-word dialogue. No prep beyond reading the page. Answer keys included. Differentiation built in for kids who are ahead or behind. If you can read, you can teach.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- SAMPLE PAGE PREVIEWS -->
+<!-- SEE IT FOR YOURSELF: PAGE PREVIEWS -->
 <section class="previews" id="preview">
     <div class="container">
         <div class="previews-header">
-            <span class="section-label">See What's Inside</span>
+            <span class="section-label">See It For Yourself</span>
             <h2>Beautiful Pages Kids Actually Want to Use</h2>
             <p>Colorful, clean, modern design. Not clip-art worksheets from 2003. Every page is designed to be inviting, readable, and easy to follow.</p>
         </div>
@@ -1567,37 +1720,6 @@
     </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="testimonials" id="testimonials">
-    <div class="container">
-        <div class="testimonials-header">
-            <span class="section-label">What Parents Are Saying</span>
-            <h2>Families Who Made the Switch</h2>
-        </div>
-
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <blockquote>"I was piecing together five different programs and still felt like I was missing something. Root Access gave me everything in one place. My daughter actually asks to do school now."</blockquote>
-                <div class="testimonial-author">&mdash; Coming Soon</div>
-                <div class="testimonial-placeholder">Testimonial from early adopter family</div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <blockquote>"Finally, a curriculum where my son sees people who look like him in the stories and history lessons. And the science experiments are his favorite part of the day."</blockquote>
-                <div class="testimonial-author">&mdash; Coming Soon</div>
-                <div class="testimonial-placeholder">Testimonial from early adopter family</div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <blockquote>"I have no teaching background and I was terrified to homeschool. The scripted lessons made it possible. I just read the page and we're learning together."</blockquote>
-                <div class="testimonial-author">&mdash; Coming Soon</div>
-                <div class="testimonial-placeholder">Testimonial from early adopter family</div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- PRICING -->
 <section class="pricing" id="pricing">
     <div class="container">
@@ -1621,13 +1743,12 @@
                     <li>Answer keys &amp; parent notes</li>
                     <li>Printable student worksheets</li>
                 </ul>
-                <form class="pricing-email-form" id="free-form" action="https://formspree.io/f/xgoleavy" method="POST">
+                <form class="pricing-email-form" id="free-form">
                     <div class="form-row">
                         <input type="email" name="email" placeholder="your@email.com" required>
                         <button type="submit" class="btn btn-primary btn-small">Get Week 1</button>
                     </div>
                     <p class="pricing-form-note">No spam. Just the curriculum and updates when new weeks launch.</p>
-                    <input type="hidden" name="_subject" value="Root Access — Free Week 1 Download">
                 </form>
                 <div class="form-success" id="free-success">
                     <p>Check your inbox! Your free week is on its way.</p>
@@ -1651,25 +1772,6 @@
                 <a href="https://buy.stripe.com/8x228refi0SF1en5GL5Rm00" id="buy-btn" class="btn btn-primary" style="width: 100%; text-align: center;">Buy the Starter Pack</a>
                 <p class="pricing-form-note" style="text-align: center; margin-top: 10px;">Secure checkout via Stripe. Instant PDF download.</p>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- EMAIL CAPTURE -->
-<section class="email-section" id="email">
-    <div class="container-narrow" style="text-align: center;">
-        <h2>Get the Free Week Delivered to Your Inbox</h2>
-        <p>Enter your email and we'll send you the complete Week 1 curriculum — all seven subjects, fully scripted, ready to teach tomorrow morning.</p>
-        <form class="email-form" id="email-form-bottom" action="https://formspree.io/f/xgoleavy" method="POST">
-            <div class="form-row">
-                <input type="email" name="email" placeholder="your@email.com" required>
-                <button type="submit" class="btn btn-gold btn-small">Send Me Week 1</button>
-            </div>
-            <p class="form-note">No spam, ever. Just curriculum updates.</p>
-            <input type="hidden" name="_subject" value="Root Access — Free Week 1 Download (Bottom CTA)">
-        </form>
-        <div class="form-success" id="email-bottom-success">
-            <p style="color: var(--gold-light);">Check your inbox! Your free week is on its way.</p>
         </div>
     </div>
 </section>
@@ -1766,15 +1868,69 @@
     </div>
 </section>
 
-<!-- FINAL CTA -->
-<section class="final-cta">
+<!-- CONSULTING / WORK WITH ME -->
+<section class="consulting" id="consulting">
     <div class="container">
-        <h2>Every Child Deserves the Whole Story</h2>
-        <p>Not the abridged version. Not the comfortable version. The real one — told with care, taught with confidence, and designed with love.</p>
-        <div class="final-cta-buttons">
-            <a href="#pricing" class="btn btn-primary btn-lg">Get the Free Week</a>
-            <a href="https://buy.stripe.com/8x228refi0SF1en5GL5Rm00" class="btn btn-secondary btn-lg">Buy Starter Pack &mdash; $29</a>
+        <div class="consulting-header">
+            <span class="section-label">Services</span>
+            <h2>Work With Me</h2>
+            <p>Beyond the curriculum -- direct access to the mind behind Root Access.</p>
         </div>
+
+        <div class="consulting-grid">
+            <!-- Card 1: Curriculum Consultation -->
+            <div class="consulting-card">
+                <span class="consulting-card-duration">30 minutes</span>
+                <h3>Curriculum Consultation</h3>
+                <div class="consulting-card-price">$75</div>
+                <p class="consulting-card-desc">Personalized guidance on implementing Root Access, adapting for your child's needs, or building a complete homeschool plan.</p>
+                <ul class="consulting-card-features">
+                    <li>Customized pacing plan</li>
+                    <li>Subject-specific strategies</li>
+                    <li>Resource recommendations</li>
+                </ul>
+                <a href="#cal-booking" class="btn btn-primary" style="width: 100%; text-align: center;">Book Now</a>
+            </div>
+
+            <!-- Card 2: Operations Consultation -->
+            <div class="consulting-card">
+                <span class="consulting-card-duration">60 minutes</span>
+                <h3>Operations Consultation</h3>
+                <div class="consulting-card-price">$150</div>
+                <p class="consulting-card-desc">For organizations and teams rethinking how they build, evaluate, or scale educational programs and processes.</p>
+                <ul class="consulting-card-features">
+                    <li>Process audit and redesign</li>
+                    <li>AI integration strategy</li>
+                    <li>Systems architecture review</li>
+                </ul>
+                <a href="#cal-booking" class="btn btn-primary" style="width: 100%; text-align: center;">Book Now</a>
+            </div>
+        </div>
+
+        <!-- Cal.com inline booking embed -->
+        <div id="cal-booking" style="width:100%;min-height:500px;margin-top:40px;">
+            <div id="cal-inline-embed" style="width:100%;height:100%;overflow:scroll"></div>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="email-section" id="email">
+    <div class="container-narrow" style="text-align: center;">
+        <h2>Every Child Deserves the Whole Story</h2>
+        <p>Not the abridged version. Not the comfortable version. The real one -- told with care, taught with confidence, and designed with love.</p>
+        <p style="color: rgba(255,255,255,0.85);">Enter your email and we'll send you the complete Week 1 -- all seven subjects, ready to teach tomorrow morning.</p>
+        <form class="email-form" id="email-form-bottom">
+            <div class="form-row">
+                <input type="email" name="email" placeholder="your@email.com" required>
+                <button type="submit" class="btn btn-gold btn-small">Send Me Week 1 Free</button>
+            </div>
+            <p class="form-note">No spam, ever. Just curriculum updates.</p>
+        </form>
+        <div class="form-success" id="email-bottom-success">
+            <p style="color: var(--gold-light);">Check your inbox! Your free week is on its way.</p>
+        </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 20px;">Or go straight to the <a href="https://buy.stripe.com/8x228refi0SF1en5GL5Rm00" style="color: var(--gold-light); text-decoration: underline;">Starter Pack -- $29</a></p>
     </div>
 </section>
 
@@ -1784,8 +1940,9 @@
         <div class="footer-logo">Root Access</div>
         <p>A complete, de-colonized 4th grade homeschool curriculum.</p>
         <ul class="footer-links">
-            <li><a href="#whats-inside">What's Inside</a></li>
+            <li><a href="#the-problem">Why Root Access</a></li>
             <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#consulting">Consulting</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="mailto:hello@rootaccesslearning.com">Contact</a></li>
         </ul>
@@ -1809,60 +1966,70 @@
         }
     }
 
-    // Email form — AJAX submit for pricing section form
+    // =========================================================================
+    // Brevo API Configuration
+    // =========================================================================
+    // PRODUCTION NOTE: For a hardened production site, this API key should live
+    // in a serverless function (e.g., Netlify Function, Cloudflare Worker, or
+    // Vercel Edge Function) that proxies the request to Brevo. However, since
+    // this is a small static site and the API key is scoped to Contacts > Create
+    // only (cannot read, list, or delete contacts), embedding it directly is an
+    // acceptable pragmatic launch choice.
+    //
+    // >>> SWAP THESE TWO VALUES BEFORE GOING LIVE <<<
+    var BREVO_API_KEY = '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';
+    var BREVO_LIST_ID = 3;
+    // =========================================================================
+
+    // Shared Brevo submit handler
+    function submitToBrevo(form, btn) {
+        var originalText = btn.textContent;
+        var emailInput = form.querySelector('input[type="email"]');
+        var email = emailInput.value;
+
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        fetch('https://api.brevo.com/v3/contacts', {
+            method: 'POST',
+            headers: {
+                'api-key': BREVO_API_KEY,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                listIds: [BREVO_LIST_ID],
+                updateEnabled: true
+            })
+        }).then(function(response) {
+            if (response.ok || response.status === 201 || response.status === 204) {
+                window.location.href = 'thank-you-free.html';
+            } else {
+                btn.textContent = 'Error -- try again';
+                btn.disabled = false;
+                setTimeout(function() { btn.textContent = originalText; }, 3000);
+            }
+        }).catch(function() {
+            btn.textContent = 'Error -- try again';
+            btn.disabled = false;
+            setTimeout(function() { btn.textContent = originalText; }, 3000);
+        });
+    }
+
+    // Email form -- pricing section form (free week)
     document.getElementById('free-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var form = this;
         var btn = form.querySelector('button[type="submit"]');
-        var originalText = btn.textContent;
-        btn.textContent = 'Sending...';
-        btn.disabled = true;
-
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
-        }).then(function(response) {
-            if (response.ok) {
-                window.location.href = 'thank-you-free.html';
-            } else {
-                btn.textContent = 'Error — try again';
-                btn.disabled = false;
-                setTimeout(function() { btn.textContent = originalText; }, 3000);
-            }
-        }).catch(function() {
-            btn.textContent = 'Error — try again';
-            btn.disabled = false;
-            setTimeout(function() { btn.textContent = originalText; }, 3000);
-        });
+        submitToBrevo(form, btn);
     });
 
-    // Email form — AJAX submit for bottom email section
+    // Email form -- bottom email section
     document.getElementById('email-form-bottom').addEventListener('submit', function(e) {
         e.preventDefault();
         var form = this;
         var btn = form.querySelector('button[type="submit"]');
-        var originalText = btn.textContent;
-        btn.textContent = 'Sending...';
-        btn.disabled = true;
-
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
-        }).then(function(response) {
-            if (response.ok) {
-                window.location.href = 'thank-you-free.html';
-            } else {
-                btn.textContent = 'Error — try again';
-                btn.disabled = false;
-                setTimeout(function() { btn.textContent = originalText; }, 3000);
-            }
-        }).catch(function() {
-            btn.textContent = 'Error — try again';
-            btn.disabled = false;
-            setTimeout(function() { btn.textContent = originalText; }, 3000);
-        });
+        submitToBrevo(form, btn);
     });
 
     // Smooth scroll for anchor links
@@ -1877,6 +2044,18 @@
             }
         });
     });
+</script>
+
+<!-- Cal.com booking embed -->
+<script>
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", {origin:"https://cal.com"});
+Cal("inline", {
+    elementOrSelector: "#cal-inline-embed",
+    calLink: "denaikelly",
+    layout: "month_view"
+});
+Cal("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
 </script>
 
 </body>
